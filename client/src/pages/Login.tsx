@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon, LockClosedIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../contexts/AuthContext';
@@ -11,8 +11,10 @@ const Login: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,16 +55,11 @@ const Login: React.FC = () => {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex flex-col items-center gap-3">
-            <div
-              style={{
-                width: 40, height: 40,
-                background: 'var(--signal)',
-                borderRadius: 'var(--r-sm)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}
-            >
-              <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 16, fontWeight: 700, color: 'var(--void)' }}>G</span>
-            </div>
+            <img
+              src={require('../Logo/logo_principal.png')}
+              alt="DevPromptly"
+              style={{ height: 64 }}
+            />
             <div>
               <h1 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 22, fontWeight: 700, color: 'var(--parchment)', letterSpacing: '-0.02em', marginBottom: 4 }}>
                 Bienvenido de vuelta
