@@ -1,0 +1,61 @@
+{
+  "name": "gpromts-platform",
+  "version": "1.0.0",
+  "description": "Plataforma moderna para descubrir y compartir prompts de IA",
+  "main": "server/indexEnhanced.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server/indexEnhanced.js",
+    "client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "start": "node server/indexEnhanced.js",
+    "test": "jest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "audit": "npm audit",
+    "audit:fix": "npm audit fix",
+    "security-check": "npm audit --audit-level=moderate"
+  },
+  "dependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/typography": "^0.5.19",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.9.0",
+    "compression": "^1.7.4",
+    "connect-redis": "^7.1.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.4.0",
+    "express-session": "^1.18.0",
+    "express-validator": "^7.2.0",
+    "helmet": "^7.1.0",
+    "helmet-csp": "^3.4.0",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.5.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "rate-limit-redis": "^4.3.1",
+    "redis": "^4.7.0",
+    "streamifier": "^0.1.1",
+    "validator": "^13.12.0",
+    "xss-clean": "^0.1.4"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "prompts",
+    "AI",
+    "chatgpt",
+    "claude",
+    "midjourney"
+  ],
+  "author": "Tu Nombre",
+  "license": "MIT"
+}

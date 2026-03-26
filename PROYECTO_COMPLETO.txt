@@ -1,0 +1,1578 @@
+================================================================================
+                     GPROMTS PLATFORM - DOCUMENTACION COMPLETA
+                         De la A a la Z - Todo el Proyecto
+================================================================================
+
+Fecha de documentacion: 24 de marzo de 2026
+Nombre del proyecto: Gpromts (DevPromptly)
+Version: 1.0.0
+Estado: Produccion-ready, sin commits en git aun
+
+================================================================================
+INDICE
+================================================================================
+
+  1. Que es este proyecto
+  2. Tecnologias utilizadas
+  3. Estructura de carpetas
+  4. Variables de entorno
+  5. Base de datos - Modelos
+  6. Backend - Servidor
+  7. API - Endpoints
+  8. Middleware y Seguridad
+  9. Frontend - Cliente React
+ 10. Paginas de la aplicacion
+ 11. Contextos y estado global
+ 12. Servicio API del cliente
+ 13. Sistema de autenticacion
+ 14. Sistema de roles y permisos
+ 15. Panel de administracion
+ 16. Sistema de notificaciones
+ 17. Blog
+ 18. Foros y comunidades
+ 19. Directorio de herramientas AI
+ 20. Diseno visual - Design System
+ 21. Como correr el proyecto localmente
+ 22. Resumen de funcionalidades
+
+================================================================================
+1. QUE ES ESTE PROYECTO
+================================================================================
+
+Gpromts es una plataforma web full-stack para descubrir, crear y compartir
+prompts de inteligencia artificial. Funciona como una red social especializada
+donde los usuarios pueden:
+
+- Publicar prompts para herramientas de IA (ChatGPT, Claude, Midjourney, etc.)
+- Buscar y filtrar prompts por categoria o herramienta
+- Calificar prompts con estrellas (1-5)
+- Guardar prompts favoritos
+- Reportar contenido inapropiado
+- Leer y escribir articulos en el blog
+- Descubrir foros y comunidades de IA
+- Ver un directorio de herramientas de IA
+
+El proyecto tiene un sistema completo de moderacion con roles de admin,
+moderador y usuario normal. Todo el codigo esta orientado a produccion
+con seguridad enterprise-level.
+
+================================================================================
+2. TECNOLOGIAS UTILIZADAS
+================================================================================
+
+--- BACKEND ---
+- Node.js                  Runtime de JavaScript en el servidor
+- Express.js 4.21.0        Framework web para Node.js
+- MongoDB                  Base de datos NoSQL
+- Mongoose 8.5.0           ODM (Object Document Mapper) para MongoDB
+- JWT (jsonwebtoken 9.0.3) Tokens de autenticacion
+- bcryptjs 2.4.3           Hashing de contrasenas
+- helmet                   Headers de seguridad HTTP
+- cors                     Control de acceso cruzado (CORS)
+- express-rate-limit       Limitacion de peticiones
+- express-mongo-sanitize   Prevencion de inyeccion NoSQL
+- xss-clean                Limpieza de XSS
+- hpp                      Proteccion contra HTTP Parameter Pollution
+- morgan                   Logging de peticiones HTTP
+- compression              Compresion gzip de respuestas
+- cookie-parser            Parseo de cookies
+- multer                   Subida de archivos
+- express-validator        Validacion de datos de entrada
+- express-session          Manejo de sesiones
+- nodemon 3.0.1            Auto-restart en desarrollo
+
+--- FRONTEND ---
+- React 18.2.0             Libreria UI principal
+- TypeScript 4.9.5         JavaScript tipado
+- React Router DOM 6.8.1   Enrutamiento del lado del cliente
+- Tailwind CSS 3.4.1       Framework CSS utility-first
+- @headlessui/react        Componentes UI accesibles
+- @heroicons/react         Iconos SVG
+- react-hot-toast 2.6.0   Notificaciones toast
+- axios 1.7.7              Cliente HTTP
+- axios-retry 4.5.0        Reintentos automaticos en axios
+- DOMPurify 3.1.6          Sanitizacion de HTML
+- clsx / tailwind-merge    Utilidades para clases CSS
+
+--- HERRAMIENTAS DE DESARROLLO ---
+- concurrently 8.2.0       Correr cliente y servidor a la vez
+- Create React App 5.0.1   Toolchain de React
+- Jest + Testing Library   Tests unitarios del frontend
+
+================================================================================
+3. ESTRUCTURA DE CARPETAS
+================================================================================
+
+Gpromts/
+|
+|-- client/                         # Aplicacion React (frontend)
+|   |-- public/                     # Archivos estaticos publicos
+|   |-- build/                      # Build de produccion compilado
+|   |-- src/
+|       |-- components/             # Componentes reutilizables
+|       |   |-- Header.tsx          # Barra de navegacion principal
+|       |   |-- NotificationBell.tsx # Icono de notificaciones
+|       |   |-- AdBanner.tsx        # Componente de anuncios
+|       |   |-- AdSenseAd.tsx       # Integracion Google AdSense
+|       |   |-- ToolLogoImg.tsx     # Logos de herramientas AI
+|       |   |-- ui/
+|       |       |-- Button.tsx      # Boton reutilizable
+|       |
+|       |-- pages/                  # Paginas de la aplicacion
+|       |   |-- Home.tsx
+|       |   |-- PromptsPage.tsx
+|       |   |-- CreatePrompt.tsx
+|       |   |-- EditPrompt.tsx
+|       |   |-- PromptDetail.tsx
+|       |   |-- MyPrompts.tsx
+|       |   |-- Login.tsx
+|       |   |-- Register.tsx
+|       |   |-- AdminPanelEnhanced.tsx
+|       |   |-- UserProfile.tsx
+|       |   |-- Settings.tsx
+|       |   |-- Favorites.tsx
+|       |   |-- Forums.tsx
+|       |   |-- AIToolsPage.tsx
+|       |   |-- Blog.tsx
+|       |   |-- BlogPost.tsx
+|       |   |-- CreateBlogPost.tsx
+|       |   |-- CommunitiesHub.tsx
+|       |   |-- ProjectsGallery.tsx
+|       |
+|       |-- contexts/               # Estado global React
+|       |   |-- AuthContext.tsx     # Autenticacion global
+|       |   |-- ThemeContext.tsx    # Tema claro/oscuro
+|       |
+|       |-- services/
+|       |   |-- api.ts              # Cliente HTTP con todos los endpoints
+|       |
+|       |-- types/
+|       |   |-- index.ts            # Tipos TypeScript del proyecto
+|       |
+|       |-- utils/
+|       |   |-- secureStorage.ts    # Storage seguro (en memoria)
+|       |   |-- urlHelpers.ts       # Helpers para URLs
+|       |
+|       |-- App.tsx                 # Componente raiz con rutas
+|       |-- App.css                 # Estilos globales
+|       |-- index.tsx               # Punto de entrada React
+|
+|-- server/                         # Servidor Node.js/Express (backend)
+|   |-- models/                     # Esquemas de MongoDB
+|   |   |-- User.js                 # Modelo de usuario
+|   |   |-- Prompt.js               # Modelo de prompt
+|   |   |-- BlogPost.js             # Modelo de post de blog
+|   |   |-- Forum.js                # Modelo de foro
+|   |   |-- AITool.js               # Modelo de herramienta AI
+|   |   |-- Report.js               # Modelo de reporte
+|   |   |-- Notification.js         # Modelo de notificacion
+|   |   |-- AuditLog.js             # Modelo de log de auditoria
+|   |   |-- Project.js              # Modelo de proyecto (legacy)
+|   |
+|   |-- routes/                     # Endpoints de la API
+|   |   |-- authEnhanced.js         # Rutas de autenticacion (18KB)
+|   |   |-- prompts.js              # Rutas de prompts (12KB)
+|   |   |-- users.js                # Rutas de usuarios (7KB)
+|   |   |-- admin.js                # Rutas de administracion (21KB)
+|   |   |-- forums.js               # Rutas de foros
+|   |   |-- aitools.js              # Rutas de herramientas AI
+|   |   |-- blog.js                 # Rutas del blog (7KB)
+|   |
+|   |-- middleware/                 # Middlewares personalizados
+|   |   |-- authEnhanced.js         # Verificacion de JWT y roles
+|   |   |-- session.js              # Sesiones y tokens CSRF
+|   |   |-- rateLimiter.js          # Limitacion de peticiones
+|   |
+|   |-- utils/                      # Utilidades del servidor
+|   |   |-- notificationService.js  # Servicio de notificaciones
+|   |   |-- passwordValidator.js    # Validacion de contrasenas
+|   |   |-- seedAdmin.js            # Crear usuario admin inicial
+|   |
+|   |-- scripts/                    # Scripts de inicializacion
+|   |-- indexEnhanced.js            # PUNTO DE ENTRADA del servidor
+|
+|-- .env.example                    # Plantilla de variables de entorno
+|-- .env.development                # Variables para desarrollo
+|-- .env.production                 # Variables para produccion
+|-- .gitignore                      # Archivos ignorados por git
+|-- .interface-design/
+|   |-- system.md                   # Sistema de diseno visual
+|-- package.json                    # Dependencias del proyecto raiz
+|-- generate-secrets.js             # Script para generar secrets
+
+================================================================================
+4. VARIABLES DE ENTORNO
+================================================================================
+
+Archivo de plantilla: .env.example
+
+Las variables necesarias para correr el proyecto son:
+
+--- BASE DE DATOS ---
+MONGODB_URI=mongodb://localhost:27017/gpromts
+  -> URI de conexion a MongoDB. En produccion usar MongoDB Atlas.
+
+--- AUTENTICACION JWT ---
+JWT_SECRET=tu_clave_secreta_aqui
+  -> Clave para firmar access tokens (15 minutos de vida)
+JWT_REFRESH_SECRET=tu_otra_clave_secreta
+  -> Clave para firmar refresh tokens (7 dias de vida)
+JWT_EXPIRES_IN=15m
+  -> Tiempo de expiracion del access token
+JWT_REFRESH_EXPIRES_IN=7d
+  -> Tiempo de expiracion del refresh token
+
+--- SERVIDOR ---
+PORT=5000
+  -> Puerto donde corre el servidor Express
+NODE_ENV=development
+  -> Entorno: development o production
+
+--- SESIONES ---
+SESSION_SECRET=clave_para_sesiones
+  -> Clave para firmar cookies de sesion
+
+--- SEGURIDAD ---
+ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
+  -> Origenes permitidos por CORS (separados por coma)
+BCRYPT_ROUNDS=12
+  -> Rondas de hashing para contrasenas (mas = mas lento = mas seguro)
+
+--- CLIENTE REACT ---
+REACT_APP_API_URL=http://localhost:5000
+  -> URL base de la API (usada por el frontend)
+
+--- CLOUDFLARE (produccion) ---
+CLOUDFLARE_API_TOKEN=token_de_cloudflare
+CLOUDFLARE_ACCOUNT_ID=id_de_cuenta
+
+================================================================================
+5. BASE DE DATOS - MODELOS
+================================================================================
+
+La base de datos es MongoDB. Todos los modelos usan Mongoose.
+
+--- MODELO: User ---
+Representa a un usuario registrado en la plataforma.
+
+Campos principales:
+  username         String, unico, requerido - nombre de usuario
+  email            String, unico, requerido - correo electronico
+  password         String, hasheado con bcrypt
+  avatar           String - URL del avatar
+  role             Enum: 'user', 'moderator', 'admin'
+  isActive         Boolean - cuenta activa o suspendida
+  favorites        Array de IDs de prompts guardados
+
+Autenticacion:
+  refreshToken     String - token de refresh activo
+  loginAttempts    Number - intentos fallidos de login
+  lockUntil        Date - cuenta bloqueada hasta esta fecha
+
+Verificacion de email:
+  emailVerified              Boolean
+  emailVerificationToken     String
+  emailVerificationExpires   Date
+
+Restablecimiento de contrasena:
+  passwordResetToken         String
+  passwordResetExpires       Date
+
+Estadisticas:
+  stats.promptsCreated   Number
+  stats.totalRatings     Number
+  stats.averageRating    Number
+
+Preferencias:
+  preferences.showNSFW   Boolean - mostrar contenido adulto
+  preferences.language   String
+
+Soft delete:
+  deletedAt    Date - si tiene valor, el usuario esta "eliminado"
+
+Metodos del modelo:
+  comparePassword(password)  - Compara contrasena con hash
+  softDelete()               - Elimina suavemente (preserva datos)
+  restore()                  - Restaura cuenta eliminada
+  updateStats()              - Recalcula estadisticas
+
+Indices: username, email, stats.promptsCreated, createdAt
+
+---
+
+--- MODELO: Prompt ---
+Representa un prompt creado por un usuario.
+
+Campos principales:
+  title        String, requerido - titulo del prompt
+  description  String - descripcion corta
+  prompt       String, requerido - el texto del prompt en si
+  category     Enum - categoria del prompt:
+               text-generation, image-generation, code-generation,
+               audio-generation, video-generation, data-analysis,
+               translation, other
+  aiTool       String - herramienta AI para la que fue creado
+  tags         Array de strings - etiquetas
+  isNSFW       Boolean - contenido adulto
+  author       Referencia a User
+
+Estado de moderacion:
+  status         Enum: 'pending', 'approved', 'rejected'
+  moderatedBy    Referencia a User (admin/moderador)
+  moderatedAt    Date
+  rejectionReason  String
+
+Sistema de calificaciones:
+  ratings.average      Number - promedio de calificaciones
+  ratings.count        Number - total de calificaciones
+  ratings.distribution  Object - {1: n, 2: n, 3: n, 4: n, 5: n}
+  ratings.userRatings  Array - {user: ID, rating: 1-5} (evita duplicados)
+
+Engagement:
+  favorites    Number - cuantas veces fue guardado como favorito
+  views        Number - cuantas veces fue visto
+  featured     Boolean - destacado por admins
+
+Reportes:
+  reportedCount    Number
+  lastReportedAt   Date
+
+Soft delete:
+  deletedAt    Date
+
+Metodos:
+  calculateAverageRating()   - Recalcula el promedio
+  addRating(userId, rating)  - Agrega/actualiza calificacion (atomico)
+
+---
+
+--- MODELO: BlogPost ---
+Articulos del blog de la plataforma.
+
+Campos principales:
+  title        String - titulo del articulo
+  slug         String, unico - URL amigable (auto-generado)
+  excerpt      String - resumen
+  content      String - contenido completo (HTML/Markdown)
+  category     Enum: guide, tutorial, ranking, news, photo, review, opinion
+  coverImage   String - URL de imagen de portada
+  images       Array de URLs
+  author       Referencia a User
+
+Menciones (links a contenido de la plataforma):
+  mentions     Array de {type: 'tool'|'prompt'|'community', id, name, url}
+
+Engagement:
+  views        Number
+  likes        Array de IDs de usuarios
+  comments     Array de {author, content, createdAt, likes}
+
+Publicacion:
+  published    Boolean
+  featured     Boolean
+
+Metadata (auto-calculada):
+  readTime     Number - tiempo estimado de lectura en minutos
+  tags         Array de strings
+
+Hooks pre-save:
+  - Genera slug automaticamente desde el titulo
+  - Calcula readTime basado en palabras del contenido
+
+---
+
+--- MODELO: Forum ---
+Foros y comunidades externas.
+
+Campos:
+  name         String - nombre del foro
+  description  String
+  url          String - enlace al foro externo
+  image        String - imagen/logo
+  favicon      String
+  language     Enum: 'es', 'en'
+  isActive     Boolean
+  createdBy    Referencia a User
+
+---
+
+--- MODELO: AITool ---
+Directorio de herramientas de IA.
+
+Campos:
+  name         String - nombre de la herramienta
+  url          String - enlace a la herramienta
+  description  String
+  category     Enum: writing, image, code, audio, video, productivity,
+               research, chatbot, data, other
+  isActive     Boolean
+  featured     Boolean
+
+---
+
+--- MODELO: Report ---
+Reportes de contenido inapropiado.
+
+Campos:
+  reporter     Referencia a User - quien reporta
+  targetType   Enum: 'prompt' - que tipo de contenido
+  targetId     ID del contenido reportado
+  reason       Enum: spam, inappropriate, misleading, copyright, other
+  details      String - detalles adicionales
+  status       Enum: 'pending', 'resolved', 'dismissed'
+  resolvedBy   Referencia a User (admin)
+  resolvedAt   Date
+  resolutionNote  String
+
+Restriccion: Un usuario solo puede reportar el mismo contenido una vez.
+
+---
+
+--- MODELO: Notification ---
+Notificaciones para usuarios.
+
+Tipos:
+  prompt_approved       - El prompt fue aprobado
+  prompt_rejected       - El prompt fue rechazado
+  new_report            - Nuevo reporte (para admins)
+  new_pending_prompt    - Nuevo prompt pendiente (para admins)
+  report_resolved       - Reporte resuelto
+
+Campos:
+  recipient    Referencia a User
+  type         Tipo de notificacion (enum arriba)
+  title        String
+  message      String
+  link         String - URL relacionada
+  read         Boolean
+  meta         Object - datos adicionales flexibles
+
+---
+
+--- MODELO: AuditLog ---
+Registro de todas las acciones administrativas.
+
+Acciones registradas:
+  approve, reject, delete, toggle_status, create, update,
+  login, logout, password_reset, email_verification,
+  moderator_add, moderator_remove, forum_create, forum_update,
+  forum_delete, tool_create, tool_update, tool_delete
+
+Campos:
+  performedBy          ID del admin que realizo la accion
+  performedByUsername  String (desnormalizado para historial)
+  performedByRole      String
+  action               Tipo de accion
+  targetType           Que tipo de objeto fue afectado
+  targetId             ID del objeto afectado
+  details              Object - datos del cambio
+  reason               String - razon opcional
+  ipAddress            String
+  userAgent            String
+  success              Boolean
+
+Metodos estaticos:
+  createLog(data)              - Crear un log
+  getRecentActions(limit)      - Ultimas acciones
+  getActionsByAdmin(adminId)   - Acciones de un admin especifico
+  getActionsOnTarget(type, id) - Historial de un objeto
+
+================================================================================
+6. BACKEND - SERVIDOR
+================================================================================
+
+Archivo principal: server/indexEnhanced.js
+
+El servidor Express se configura con las siguientes capas (en orden):
+
+1. CONFIGURACION DE CONFIANZA
+   app.set('trust proxy', 1)
+   -> Necesario cuando hay un load balancer o proxy (como Nginx/Cloudflare)
+
+2. MIDDLEWARES DE SEGURIDAD
+   - helmet()              -> Headers HTTP de seguridad
+   - Content-Security-Policy (CSP) con directivas estrictas
+   - X-Content-Type-Options: nosniff
+   - X-Frame-Options: DENY (evita clickjacking)
+   - Permissions-Policy: sin acceso a geoloc, microfono, camara
+   - Referrer-Policy: strict-origin-when-cross-origin
+
+3. CORS
+   Permite peticiones desde los origenes configurados en ALLOWED_ORIGINS.
+   Por defecto: localhost:3000 y localhost:3001
+
+4. COMPRESION Y PARSEO
+   - compression()         -> Comprime respuestas HTTP con gzip
+   - express.json()        -> Parsea body JSON (limite 10kb)
+   - express.urlencoded()  -> Parsea forms (limite 10kb)
+   - cookieParser()        -> Parsea cookies
+
+5. LOGGING
+   - morgan('combined')    -> Log de peticiones en produccion
+   - morgan('dev')         -> Log colorido en desarrollo
+
+6. RATE LIMITING
+   - /api/*:    Limite general de peticiones
+   - /api/auth/*: Limite estricto en endpoints de autenticacion
+
+7. SANITIZACION
+   - mongoSanitize()       -> Previene inyeccion NoSQL
+   - xss()                 -> Limpia inputs con XSS
+   - hpp()                 -> Evita HTTP Parameter Pollution
+
+8. SESIONES Y CSRF
+   - sessionMiddleware     -> Sesiones con Redis opcional
+   - generateCSRFToken     -> Genera token CSRF para el cliente
+
+9. MONTAJE DE RUTAS
+   app.use('/api/auth',    authRoutes)
+   app.use('/api/prompts', promptRoutes)
+   app.use('/api/users',   userRoutes)
+   app.use('/api/admin',   adminRoutes)
+   app.use('/api/forums',  forumRoutes)
+   app.use('/api/tools',   aiToolRoutes)
+   app.use('/api/blog',    blogRoutes)
+
+10. CONEXION A MONGODB
+    mongoose.connect(MONGODB_URI) con opciones de reconnect
+
+================================================================================
+7. API - ENDPOINTS
+================================================================================
+
+BASE URL: http://localhost:5000/api
+
+Leyenda: [AUTH] = requiere token JWT | [ADMIN] = requiere rol admin/moderador
+         [SUPER] = requiere rol admin solamente
+
+--- AUTENTICACION (/api/auth) ---
+
+POST   /api/auth/register          Crear cuenta nueva
+  Body: { username, email, password }
+
+POST   /api/auth/login             Iniciar sesion
+  Body: { email, password }
+  Returns: { accessToken, user }
+
+POST   /api/auth/logout            [AUTH] Cerrar sesion
+  Limpia cookies y tokens
+
+GET    /api/auth/me                [AUTH] Obtener usuario actual
+  Returns: datos del usuario logueado
+
+POST   /api/auth/refresh           Renovar access token usando refresh token
+
+PUT    /api/auth/profile           [AUTH] Actualizar perfil
+  Body: { username, avatar, bio }
+
+POST   /api/auth/forgot-password   Solicitar reset de contrasena
+  Body: { email }
+
+POST   /api/auth/reset-password    Resetear contrasena con token
+  Body: { token, newPassword }
+
+POST   /api/auth/verify-email      Verificar email con token
+  Body: { token }
+
+---
+
+--- PROMPTS (/api/prompts) ---
+
+GET    /api/prompts                Listar prompts publicos (paginado)
+  Query params:
+    page         - numero de pagina (default: 1)
+    limit        - resultados por pagina (default: 10)
+    category     - filtrar por categoria
+    aiTool       - filtrar por herramienta
+    search       - busqueda de texto
+    sort         - ordenar por: newest, rating, favorites, views
+    featured     - solo prompts destacados (true/false)
+
+GET    /api/prompts/:id            Obtener un prompt especifico
+
+POST   /api/prompts                [AUTH] Crear nuevo prompt
+  Body: { title, description, prompt, category, aiTool, tags, isNSFW }
+  Nota: queda en estado 'pending' hasta que un admin lo apruebe
+
+PUT    /api/prompts/:id            [AUTH] Editar prompt propio
+
+DELETE /api/prompts/:id            [AUTH] Eliminar prompt propio
+
+POST   /api/prompts/:id/rate       [AUTH] Calificar prompt (1-5 estrellas)
+  Body: { rating }
+
+POST   /api/prompts/:id/favorite   [AUTH] Agregar/quitar de favoritos
+  Toggle: si ya es favorito, lo quita; si no, lo agrega
+
+POST   /api/prompts/:id/report     [AUTH] Reportar prompt inapropiado
+  Body: { reason, details }
+
+GET    /api/prompts/user/favorites [AUTH] Mis prompts favoritos
+
+GET    /api/prompts/user/my-prompts [AUTH] Prompts que yo cree
+
+---
+
+--- USUARIOS (/api/users) ---
+
+GET    /api/users/:username        Ver perfil publico de un usuario
+
+PUT    /api/users/profile          [AUTH] Actualizar mi perfil
+
+PUT    /api/users/password         [AUTH] Cambiar contrasena
+  Body: { currentPassword, newPassword }
+
+DELETE /api/users/account          [AUTH] Eliminar mi cuenta
+
+GET    /api/users/stats/me         [AUTH] Mis estadisticas
+
+PATCH  /api/users/preferences      [AUTH] Actualizar preferencias
+  Body: { showNSFW, language }
+
+---
+
+--- ADMINISTRACION (/api/admin) ---
+
+GET    /api/admin/dashboard        [ADMIN] Estadisticas generales
+  Returns: total usuarios, prompts, prompts pendientes, reportes, etc.
+
+GET    /api/admin/prompts/pending  [ADMIN] Cola de prompts pendientes
+
+POST   /api/admin/prompts/:id/approve  [ADMIN] Aprobar un prompt
+
+POST   /api/admin/prompts/:id/reject   [ADMIN] Rechazar un prompt
+  Body: { reason }
+
+DELETE /api/admin/prompts/:id      [ADMIN] Eliminar cualquier prompt
+
+GET    /api/admin/users            [ADMIN] Listar todos los usuarios
+  Query: search, page, limit
+
+POST   /api/admin/users/:id/toggle-status  [SUPER] Activar/desactivar usuario
+
+GET    /api/admin/reports          [ADMIN] Ver reportes
+  Query: status (pending/resolved/dismissed)
+
+POST   /api/admin/reports/:id/resolve   [ADMIN] Resolver reporte
+  Body: { note }
+
+POST   /api/admin/reports/:id/dismiss   [ADMIN] Descartar reporte
+
+GET    /api/admin/moderators       [SUPER] Listar moderadores
+
+POST   /api/admin/moderators       [SUPER] Agregar moderador
+  Body: { userId }
+
+DELETE /api/admin/moderators/:userId  [SUPER] Quitar moderador
+
+GET    /api/admin/forums           [ADMIN] Listar foros
+POST   /api/admin/forums           [ADMIN] Crear foro
+PUT    /api/admin/forums/:id       [ADMIN] Editar foro
+DELETE /api/admin/forums/:id       [ADMIN] Eliminar foro
+
+GET    /api/admin/tools            [ADMIN] Listar herramientas AI
+POST   /api/admin/tools            [ADMIN] Crear herramienta
+PUT    /api/admin/tools/:id        [ADMIN] Editar herramienta
+DELETE /api/admin/tools/:id        [ADMIN] Eliminar herramienta
+
+---
+
+--- BLOG (/api/blog) ---
+
+GET    /api/blog                   Listar posts publicados
+  Query: page, limit, category, search
+
+GET    /api/blog/:id               Ver post completo
+
+POST   /api/blog                   [AUTH] Crear post
+  Body: { title, excerpt, content, category, coverImage, tags, published }
+
+PUT    /api/blog/:id               [AUTH] Editar post propio
+
+DELETE /api/blog/:id               [AUTH] Eliminar post propio
+
+POST   /api/blog/:id/like          [AUTH] Dar/quitar like a un post
+
+GET    /api/blog/:id/comments      Ver comentarios de un post
+
+POST   /api/blog/:id/comments      [AUTH] Agregar comentario
+  Body: { content }
+
+DELETE /api/blog/:postId/comments/:commentId  [AUTH] Eliminar comentario
+
+---
+
+--- FOROS (/api/forums) ---
+
+GET    /api/forums                 Listar foros activos
+  Query: language (es/en)
+
+---
+
+--- HERRAMIENTAS AI (/api/tools) ---
+
+GET    /api/tools                  Listar herramientas AI activas
+  Query: category
+
+---
+
+--- NOTIFICACIONES (/api/notifications) ---
+
+GET    /api/notifications          [AUTH] Mis notificaciones
+  Query: page, limit
+
+GET    /api/notifications/unread-count  [AUTH] Numero de no leidas
+
+PUT    /api/notifications/:id/read      [AUTH] Marcar como leida
+
+PUT    /api/notifications/read-all      [AUTH] Marcar todas como leidas
+
+DELETE /api/notifications/:id           [AUTH] Eliminar notificacion
+
+================================================================================
+8. MIDDLEWARE Y SEGURIDAD
+================================================================================
+
+--- AUTENTICACION (authEnhanced.js) ---
+
+authenticateToken
+  - Extrae el JWT del header Authorization: Bearer <token>
+  - Verifica la firma con JWT_SECRET
+  - Busca el usuario en MongoDB
+  - Verifica que la cuenta este activa
+  - Agrega req.user al request
+
+authenticateAdmin
+  - Llama authenticateToken primero
+  - Verifica que role sea 'admin' o 'moderator'
+  - Error 403 si no tiene permisos
+
+authenticateSuperAdmin
+  - Solo permite role 'admin'
+  - Para operaciones criticas como gestionar moderadores
+
+optionalAuth
+  - Como authenticateToken pero no falla si no hay token
+  - Usado en rutas publicas que muestran contenido diferente si estas logueado
+
+refreshTokenMiddleware
+  - Lee el refresh token de la cookie httpOnly
+  - Genera un nuevo access token si el refresh es valido
+  - Invalida el refresh token anterior (rotacion de tokens)
+
+checkAccountStatus
+  - Verifica que isActive sea true
+  - Retorna 403 si la cuenta esta suspendida
+
+requireEmailVerification
+  - Verifica que emailVerified sea true
+  - Para funciones que requieren email verificado
+
+---
+
+--- SESIONES Y CSRF (session.js) ---
+
+sessionMiddleware
+  - Configura express-session
+  - En produccion: usa Redis como store
+  - En desarrollo: usa store en memoria
+  - Cookies: httpOnly, secure en produccion, sameSite: 'lax'
+  - Expiracion: 24 horas
+
+generateCSRFToken
+  - Genera token aleatorio de 32 bytes (hex)
+  - Lo guarda en la sesion del usuario
+  - El cliente debe incluirlo en el header X-CSRF-Token
+
+validateCSRFToken
+  - Verifica el token CSRF en peticiones POST/PUT/PATCH/DELETE
+  - Compara el header X-CSRF-Token con el de la sesion
+  - Error 403 si no coinciden
+
+---
+
+--- RATE LIMITING (rateLimiter.js) ---
+
+apiRateLimiter (aplicado a /api/*)
+  - 100 peticiones por ventana de 15 minutos por IP
+  - Headers informativos: RateLimit-Limit, RateLimit-Remaining
+
+authRateLimiter (aplicado a /api/auth/*)
+  - 20 peticiones por ventana de 15 minutos por IP
+  - Mas estricto para prevenir fuerza bruta
+
+passwordResetRateLimiter
+  - 5 intentos por hora por IP
+  - Previene abuso del sistema de reset
+
+searchRateLimiter
+  - 30 busquedas por minuto por IP
+  - Previene scraping masivo
+
+En produccion: usa Redis para distribuir el conteo entre multiples instancias.
+En desarrollo: usa store en memoria.
+
+================================================================================
+9. FRONTEND - CLIENTE REACT
+================================================================================
+
+El cliente es una Single Page Application (SPA) construida con React 18.
+
+PUNTO DE ENTRADA: client/src/index.tsx
+  - Renderiza <App /> en el div#root del HTML
+  - Envuelve la app con StrictMode
+
+App.tsx - Componente raiz:
+  - Configura React Router con BrowserRouter
+  - Envuelve todo con AuthProvider y ThemeProvider
+  - Define todas las rutas de la aplicacion
+  - Incluye el componente <Toaster /> de react-hot-toast
+  - Renderiza el componente Header en todas las paginas
+
+CONFIGURACION DE RUTAS (App.tsx):
+  Las rutas siguen un patron claro:
+  - Rutas publicas: Home, Prompts, Login, Register, PromptDetail, UserProfile
+  - Rutas protegidas: Create, Edit, MyPrompts, Favorites, Settings, Admin
+  - Redirecciones: /projects -> /prompts, /communities -> /forums
+
+SISTEMA DE TEMAS:
+  ThemeContext.tsx proporciona:
+  - Estado: 'light' | 'dark'
+  - Funcion toggleTheme()
+  - Persistencia en localStorage
+  - Aplica clase 'dark' al elemento <html>
+  Tailwind CSS esta configurado para dark mode via clase.
+
+================================================================================
+10. PAGINAS DE LA APLICACION
+================================================================================
+
+RUTA: /  ->  Home.tsx
+  Pagina principal. Muestra prompts destacados, estadisticas globales,
+  categorias populares y un buscador principal.
+
+RUTA: /prompts  ->  PromptsPage.tsx
+  Listado completo de prompts aprobados.
+  - Filtros: categoria, herramienta AI, busqueda de texto
+  - Ordenamiento: mas recientes, mejor calificados, mas favoritos, mas vistos
+  - Paginacion
+  - Tarjetas de prompt con info resumida
+
+RUTA: /prompt/:id  ->  PromptDetail.tsx
+  Vista completa de un prompt individual.
+  - Texto completo del prompt
+  - Boton para copiar al portapapeles
+  - Sistema de calificacion (1-5 estrellas)
+  - Boton de favorito
+  - Info del autor
+  - Boton de reporte
+
+RUTA: /create  ->  CreatePrompt.tsx  [AUTH]
+  Formulario para crear nuevo prompt.
+  - Campos: titulo, descripcion, prompt, categoria, herramienta AI, tags, NSFW
+  - El prompt queda pendiente de aprobacion al enviarse
+
+RUTA: /edit/:id  ->  EditPrompt.tsx  [AUTH]
+  Editar un prompt existente (solo el autor puede editar).
+
+RUTA: /my-prompts  ->  MyPrompts.tsx  [AUTH]
+  Lista de prompts creados por el usuario logueado.
+  - Muestra estado: pendiente, aprobado, rechazado
+  - Opciones de editar y eliminar
+
+RUTA: /favorites  ->  Favorites.tsx  [AUTH]
+  Prompts guardados como favoritos por el usuario.
+
+RUTA: /login  ->  Login.tsx
+  Formulario de inicio de sesion.
+  - Email y contrasena
+  - Link a registro
+  - Link a recuperar contrasena
+
+RUTA: /register  ->  Register.tsx
+  Formulario de registro.
+  - Username, email, contrasena
+  - Validacion de complejidad de contrasena:
+    * Minimo 8 caracteres
+    * Al menos una mayuscula
+    * Al menos una minuscula
+    * Al menos un numero
+    * Al menos un caracter especial
+
+RUTA: /profile/:username  ->  UserProfile.tsx
+  Perfil publico de un usuario.
+  - Avatar, bio, estadisticas
+  - Lista de prompts publicos del usuario
+
+RUTA: /settings  ->  Settings.tsx  [AUTH]
+  Configuracion de la cuenta.
+  - Cambiar avatar, bio
+  - Cambiar contrasena
+  - Preferencias (NSFW, idioma)
+  - Opcion de eliminar cuenta
+
+RUTA: /admin  ->  AdminPanelEnhanced.tsx  [ADMIN]
+  Panel de administracion completo con secciones:
+  - Dashboard: estadisticas generales con graficas
+  - Moderacion: aprobar/rechazar prompts pendientes
+  - Usuarios: buscar y gestionar cuentas
+  - Reportes: revisar y resolver reportes
+  - Moderadores: gestionar equipo de moderacion
+  - Foros: CRUD de foros
+  - Herramientas: CRUD de directorio AI
+  - Auditoria: historial de acciones (si implementado en UI)
+
+RUTA: /forums  ->  Forums.tsx
+  Directorio de foros y comunidades externas.
+  - Filtrables por idioma (ES/EN)
+  - Cards con logo, descripcion y link externo
+
+RUTA: /tools  ->  AIToolsPage.tsx
+  Directorio de herramientas de IA.
+  - Filtro por categoria
+  - Cards con nombre, descripcion, logo y link
+
+RUTA: /blog  ->  Blog.tsx
+  Listado de articulos del blog.
+  - Filtro por categoria
+  - Paginacion
+  - Cards con portada, titulo, extracto, autor
+
+RUTA: /blog/:id  ->  BlogPost.tsx
+  Lectura de un articulo completo.
+  - Contenido del articulo
+  - Menciones a herramientas/prompts/comunidades
+  - Seccion de comentarios
+  - Like al articulo
+
+RUTA: /blog/new  ->  CreateBlogPost.tsx  [AUTH]
+  Editor para crear nuevos articulos.
+
+================================================================================
+11. CONTEXTOS Y ESTADO GLOBAL
+================================================================================
+
+--- AuthContext.tsx ---
+
+Provee a toda la app el estado de autenticacion.
+
+Estado:
+  user          Objeto User o null
+  loading       Boolean - cargando estado inicial
+  isAuthenticated  Boolean
+
+Funciones:
+  login(email, password)   - Llama a authAPI.login(), guarda token
+  register(data)           - Llama a authAPI.register()
+  logout()                 - Llama a authAPI.logout(), limpia estado
+  updateUser(data)         - Actualiza datos del usuario en contexto
+  refreshToken()           - Renueva el access token
+
+Comportamiento:
+  - Al cargar la app, intenta obtener el usuario actual con authAPI.me()
+  - Si hay token valido, restaura la sesion automaticamente
+  - El token de acceso se guarda en memoria (no localStorage) para seguridad
+  - El refresh token viaja en una cookie httpOnly (el JS no puede leerla)
+
+Uso en componentes:
+  const { user, isAuthenticated, login, logout } = useAuth()
+
+---
+
+--- ThemeContext.tsx ---
+
+Maneja el tema visual de la aplicacion.
+
+Estado:
+  theme   'light' | 'dark'
+
+Funciones:
+  toggleTheme()   - Cambia entre claro y oscuro
+
+Comportamiento:
+  - Lee preferencia inicial de localStorage
+  - Si no hay preferencia, detecta la del sistema (prefers-color-scheme)
+  - Al cambiar, guarda en localStorage y aplica clase 'dark' al <html>
+
+Uso:
+  const { theme, toggleTheme } = useTheme()
+
+================================================================================
+12. SERVICIO API DEL CLIENTE
+================================================================================
+
+Archivo: client/src/services/api.ts (572 lineas)
+
+Este archivo centraliza TODAS las llamadas HTTP al backend.
+
+INSTANCIA DE AXIOS:
+  - Base URL: REACT_APP_API_URL o http://localhost:5000
+  - withCredentials: true (envia cookies, necesario para refresh token)
+  - timeout: 10000 (10 segundos)
+
+REINTENTOS AUTOMATICOS (axios-retry):
+  - 3 reintentos en errores de red
+  - Backoff exponencial: espera mas entre cada reintento
+  - No reintenta en errores 4xx (son errores del cliente)
+
+CACHE SIMPLE:
+  - TTL: 5 minutos
+  - Solo para peticiones GET
+  - Se limpia automaticamente en mutaciones (POST/PUT/DELETE)
+  - Implementado en memoria (Map)
+
+INTERCEPTOR DE REQUEST:
+  - Agrega automaticamente el header X-CSRF-Token a peticiones
+    que modifican datos (POST, PUT, PATCH, DELETE)
+  - El token CSRF se obtiene de memoria (secureStorage)
+
+INTERCEPTOR DE RESPONSE:
+  - En error 401: intenta renovar el token automaticamente
+  - Cola de requests: si hay token refrescandose, encola los requests fallidos
+  - Una vez renovado el token, reintenta todos los requests en cola
+  - En error 403: muestra mensaje de "sin permisos"
+  - En error 429: muestra "demasiadas peticiones, espera un momento"
+  - En error de red: muestra "error de conexion"
+
+ALMACENAMIENTO SEGURO (secureStorage):
+  - El token CSRF se guarda en MEMORIA (variable JS), no en localStorage
+  - Esto protege contra ataques XSS que roben tokens de localStorage
+  - El access token tambien vive en memoria via AuthContext
+
+MODULOS DEL API CLIENT:
+
+  authAPI:
+    register(data)       - POST /auth/register
+    login(data)          - POST /auth/login
+    logout()             - POST /auth/logout
+    getCurrentUser()     - GET /auth/me
+    updateProfile(data)  - PUT /auth/profile
+    refreshToken()       - POST /auth/refresh
+
+  promptsAPI:
+    getPrompts(filters)          - GET /prompts (con query params)
+    getPrompt(id)                - GET /prompts/:id
+    createPrompt(data)           - POST /prompts
+    updatePrompt(id, data)       - PUT /prompts/:id
+    deletePrompt(id)             - DELETE /prompts/:id
+    ratePrompt(id, rating)       - POST /prompts/:id/rate
+    toggleFavorite(id)           - POST /prompts/:id/favorite
+    reportPrompt(id, data)       - POST /prompts/:id/report
+    getFavorites()               - GET /prompts/user/favorites
+    getMyPrompts()               - GET /prompts/user/my-prompts
+
+  usersAPI:
+    getUserProfile(username)     - GET /users/:username
+    updateProfile(data)          - PUT /users/profile
+    changePassword(data)         - PUT /users/password
+    deleteAccount()              - DELETE /users/account
+    getUserStats()               - GET /users/stats/me
+    updatePreferences(prefs)     - PATCH /users/preferences
+
+  adminAPI:
+    getDashboard()               - GET /admin/dashboard
+    getPendingPrompts()          - GET /admin/prompts/pending
+    approvePrompt(id)            - POST /admin/prompts/:id/approve
+    rejectPrompt(id, reason)     - POST /admin/prompts/:id/reject
+    deletePrompt(id)             - DELETE /admin/prompts/:id
+    getUsers(params)             - GET /admin/users
+    toggleUserStatus(id)         - POST /admin/users/:id/toggle-status
+    getReports(status)           - GET /admin/reports
+    resolveReport(id, note)      - POST /admin/reports/:id/resolve
+    dismissReport(id)            - POST /admin/reports/:id/dismiss
+    getModerators()              - GET /admin/moderators
+    addModerator(userId)         - POST /admin/moderators
+    removeModerator(userId)      - DELETE /admin/moderators/:userId
+    createForum(data)            - POST /admin/forums
+    updateForum(id, data)        - PUT /admin/forums/:id
+    deleteForum(id)              - DELETE /admin/forums/:id
+    createTool(data)             - POST /admin/tools
+    updateTool(id, data)         - PUT /admin/tools/:id
+    deleteTool(id)               - DELETE /admin/tools/:id
+
+  aiToolsAPI:
+    getTools(category)           - GET /tools
+
+  forumsAPI:
+    getForums(language)          - GET /forums
+
+  blogAPI:
+    getPosts(params)             - GET /blog
+    getPost(id)                  - GET /blog/:id
+    createPost(data)             - POST /blog
+    updatePost(id, data)         - PUT /blog/:id
+    deletePost(id)               - DELETE /blog/:id
+    likePost(id)                 - POST /blog/:id/like
+    getComments(id)              - GET /blog/:id/comments
+    addComment(id, content)      - POST /blog/:id/comments
+    deleteComment(postId, commentId) - DELETE /blog/:postId/comments/:commentId
+
+  notificationsAPI:
+    getNotifications(params)     - GET /notifications
+    getUnreadCount()             - GET /notifications/unread-count
+    markAsRead(id)               - PUT /notifications/:id/read
+    markAllAsRead()              - PUT /notifications/read-all
+    deleteNotification(id)       - DELETE /notifications/:id
+
+================================================================================
+13. SISTEMA DE AUTENTICACION
+================================================================================
+
+El sistema usa JWT con dos tokens:
+
+ACCESS TOKEN:
+  - Vida corta: 15 minutos
+  - Se guarda en MEMORIA (variable JS en AuthContext)
+  - Se envia en el header: Authorization: Bearer <token>
+  - Firmado con JWT_SECRET
+  - Contiene: { userId, role }
+
+REFRESH TOKEN:
+  - Vida larga: 7 dias
+  - Se guarda en cookie httpOnly, secure, sameSite
+  - El JavaScript NO puede leerlo (proteccion XSS)
+  - Firmado con JWT_REFRESH_SECRET
+  - Contiene: { userId } + referencia en DB
+
+FLUJO DE LOGIN:
+  1. Usuario envia email + password
+  2. Servidor verifica credenciales con bcrypt
+  3. Si son correctas, genera access token + refresh token
+  4. Refresh token: se guarda en DB (campo refreshToken del User)
+     y se envia como cookie httpOnly
+  5. Access token: se devuelve en el body JSON
+  6. Cliente guarda access token en memoria
+  7. Cliente usa access token en cada request
+
+FLUJO DE RENOVACION (token refresh):
+  1. Request con access token expirado -> respuesta 401
+  2. El interceptor de axios detecta el 401
+  3. Hace POST /api/auth/refresh (enviar cookie automaticamente)
+  4. Servidor verifica la cookie con el refresh token
+  5. Si es valido, genera nuevo access token (y nuevo refresh token)
+  6. Viejo refresh token se invalida en DB
+  7. Nuevo access token se guarda en memoria
+  8. Se reintenta el request original con el nuevo token
+
+FLUJO DE LOGOUT:
+  1. POST /api/auth/logout
+  2. Servidor elimina refreshToken del usuario en DB
+  3. Servidor limpia la cookie del refresh token
+  4. Cliente limpia el access token de memoria
+  5. AuthContext resetea el estado user a null
+
+PROTECCION CONTRA FUERZA BRUTA:
+  - Despues de N intentos fallidos: cuenta se bloquea por X minutos
+  - Rate limiter: max 20 peticiones a /api/auth/* cada 15 minutos
+  - El numero de loginAttempts se guarda en el modelo User
+
+================================================================================
+14. SISTEMA DE ROLES Y PERMISOS
+================================================================================
+
+Roles disponibles:
+  user       - Usuario normal registrado
+  moderator  - Moderador de contenido
+  admin      - Administrador con acceso total
+
+PERMISOS POR ROL:
+
+user:
+  - Ver todos los prompts aprobados
+  - Crear prompts (quedan pendientes de aprobacion)
+  - Editar y eliminar sus propios prompts
+  - Calificar prompts de otros
+  - Guardar prompts como favoritos
+  - Reportar contenido inapropiado
+  - Ver y actualizar su propio perfil
+  - Escribir posts en el blog
+  - Comentar en el blog
+
+moderator:
+  - Todo lo de user
+  - Aprobar y rechazar prompts pendientes
+  - Ver lista de usuarios (solo lectura)
+  - Ver y gestionar reportes
+  - Gestionar foros y herramientas AI
+  - Ver el dashboard de admin
+
+admin:
+  - Todo lo de moderator
+  - Activar/desactivar cuentas de usuario
+  - Agregar y quitar moderadores
+  - Eliminar cualquier contenido
+  - Acceso completo al panel de admin
+  - Ver logs de auditoria
+
+COMO SE VERIFICAN EN EL SERVIDOR:
+  Cada ruta protegida usa un middleware:
+  - authenticateToken    -> verifica que haya JWT valido
+  - authenticateAdmin    -> verifica role admin o moderator
+  - authenticateSuperAdmin -> verifica role admin solamente
+
+================================================================================
+15. PANEL DE ADMINISTRACION
+================================================================================
+
+Accesible en: /admin
+Solo para roles: admin, moderator
+
+SECCION: Dashboard
+  - Total de usuarios registrados
+  - Total de prompts (desglosado: aprobados/pendientes/rechazados)
+  - Total de reportes pendientes
+  - Prompts creados hoy/esta semana
+  - Usuarios nuevos hoy/esta semana
+  - Graficas de actividad (si implementadas)
+
+SECCION: Moderacion de Prompts
+  - Lista de prompts con status 'pending'
+  - Info de cada prompt: titulo, categoria, herramienta, autor, fecha
+  - Acciones: Aprobar (pasa a 'approved') o Rechazar (requiere razon)
+  - Al aprobar: notificacion enviada al autor
+  - Al rechazar: notificacion con la razon enviada al autor
+  - Ambas acciones quedan en el AuditLog
+
+SECCION: Gestion de Usuarios
+  - Buscador por nombre/email
+  - Lista de usuarios con: username, email, role, status, fecha de registro
+  - Accion: Toggle activo/inactivo (solo admins pueden hacer esto)
+  - Al desactivar: el usuario no puede iniciar sesion
+  - Queda registrado en AuditLog
+
+SECCION: Reportes
+  - Lista de reportes con: quien reporto, que fue reportado, razon, fecha
+  - Filtro por estado: pendientes / resueltos / descartados
+  - Al resolver: se puede agregar una nota de resolucion
+  - Al descartar: se marca como 'dismissed' sin accion
+
+SECCION: Moderadores
+  - Solo accesible para admins (no moderadores)
+  - Lista de usuarios con rol 'moderator'
+  - Buscar usuarios para promover a moderador
+  - Quitar rol de moderador
+
+SECCION: Foros
+  - CRUD completo de foros en el directorio
+  - Campos: nombre, descripcion, URL, imagen, idioma, estado activo
+
+SECCION: Herramientas AI
+  - CRUD completo del directorio de herramientas
+  - Campos: nombre, URL, descripcion, categoria, destacado, activo
+
+================================================================================
+16. SISTEMA DE NOTIFICACIONES
+================================================================================
+
+Las notificaciones se generan automaticamente cuando ocurren ciertos eventos:
+
+EVENTOS QUE GENERAN NOTIFICACIONES:
+
+Para el autor de un prompt:
+  - Su prompt fue APROBADO -> prompt_approved
+    Titulo: "Tu prompt fue aprobado"
+    Link: /prompt/:id
+
+  - Su prompt fue RECHAZADO -> prompt_rejected
+    Titulo: "Tu prompt fue rechazado"
+    Mensaje incluye la razon del rechazo
+    Link: /my-prompts
+
+Para admins/moderadores:
+  - Nuevo prompt pendiente de revision -> new_pending_prompt
+    Se envia a todos los admins y moderadores
+    Link: /admin (seccion moderacion)
+
+  - Nuevo reporte recibido -> new_report
+    Se envia a todos los admins y moderadores
+    Link: /admin (seccion reportes)
+
+  - Reporte resuelto (confirmacion) -> report_resolved
+
+COMPONENTE NotificationBell.tsx:
+  - Campana en el header con badge del numero de no leidas
+  - Al hacer click, despliega dropdown con lista de notificaciones
+  - Cada notificacion muestra: titulo, mensaje, tiempo transcurrido
+  - Click en notificacion: marca como leida y navega al link
+  - Boton "marcar todas como leidas"
+  - Polling periodico para detectar nuevas notificaciones
+
+================================================================================
+17. BLOG
+================================================================================
+
+El blog es una funcionalidad de contenido editorial de la plataforma.
+
+CATEGORIAS DE POSTS:
+  guide       - Guias de uso
+  tutorial    - Tutoriales paso a paso
+  ranking     - Rankings y comparativas
+  news        - Noticias del mundo AI
+  photo       - Posts con galeria de fotos
+  review      - Resenas de herramientas
+  opinion     - Opinion y editorial
+
+CARACTERISTICAS:
+  - Rich content (HTML/Markdown en el campo content)
+  - Imagen de portada
+  - Tiempo de lectura calculado automaticamente
+  - Tags para categorizar
+  - Sistema de likes (un like por usuario)
+  - Comentarios anidados con likes en comentarios
+  - Posts publicados o borradores (published flag)
+  - Posts destacados (featured flag)
+  - Slug amigable para URLs (auto-generado desde el titulo)
+
+SISTEMA DE MENCIONES:
+  Un post puede mencionar entidades de la plataforma:
+  - Herramienta AI: { type: 'tool', id, name, url }
+  - Prompt: { type: 'prompt', id, name, url }
+  - Comunidad: { type: 'community', id, name, url }
+  Las menciones se muestran como links dentro del contenido.
+
+================================================================================
+18. FOROS Y COMUNIDADES
+================================================================================
+
+Los foros son comunidades EXTERNAS que el equipo curado y agrega al directorio.
+No son foros internos de la plataforma.
+
+Gestion: Los admins pueden agregar/editar/eliminar foros desde el panel.
+
+Informacion de cada foro:
+  - Nombre
+  - Descripcion
+  - URL externa (link al foro real)
+  - Imagen/logo
+  - Favicon (icono del sitio externo)
+  - Idioma: Espanol o Ingles
+  - Estado activo
+
+La pagina /forums muestra el directorio curado con filtro por idioma.
+
+================================================================================
+19. DIRECTORIO DE HERRAMIENTAS AI
+================================================================================
+
+Similar a los foros, es un directorio curado de herramientas de inteligencia
+artificial. Los admins lo gestionan desde el panel.
+
+Categorias de herramientas:
+  writing, image, code, audio, video, productivity,
+  research, chatbot, data, other
+
+Informacion de cada herramienta:
+  - Nombre
+  - URL (link a la herramienta)
+  - Descripcion
+  - Categoria
+  - Estado activo
+  - Destacado (featured)
+
+La pagina /tools muestra el directorio con filtro por categoria.
+
+Las herramientas tambien aparecen en el selector de "AI Tool" al crear prompts.
+El sistema soporta mas de 70 herramientas incluyendo:
+  ChatGPT, Claude, Gemini, Copilot, Midjourney, DALL-E, Stable Diffusion,
+  Perplexity, Llama, Mistral, y muchas mas.
+
+================================================================================
+20. DISENO VISUAL - DESIGN SYSTEM
+================================================================================
+
+Nombre del sistema: DevPromptly - Professional, Calm Workspace
+Archivo de referencia: .interface-design/system.md
+
+FILOSOFIA:
+  Espacio de trabajo profesional y calmado. No vibrante ni jugueton.
+  Orientado a desarrolladores y usuarios tecnicos.
+
+PALETA DE COLORES:
+  Color de acento (unico): Azul #3B82F6 (--signal)
+
+  Superficies (tonos azulados frios):
+    --snow:    #FFFFFF  (fondo principal)
+    --ink:     #F8FAFD  (fondo secundario)
+    --carbon:  #EEF2FA  (fondo terciario)
+    --graphite: #E2E8F4 (bordes y divisores)
+
+  Textos:
+    --primary:   #0F172A  (texto principal, azul profundo)
+    --secondary: #475569  (--stone, texto secundario)
+
+  Semanticos:
+    --success: #059669  (verde)
+    --warning: #D97706  (ambar, SOLO para alertas, no para UI)
+    --error:   #DC2626  (rojo)
+
+  Bordes: rgba del color de acento para coherencia sistematica
+
+TIPOGRAFIA:
+  Headings: Plus Jakarta Sans (personalidad, moderno)
+  Body:     Inter (legibilidad)
+  Code:     JetBrains Mono
+
+  Escalas:
+    H1: 56px / weight 700
+    H2: 32px / weight 700
+    H3: 18px / weight 600
+    Body: 15px / weight 400
+
+COMPONENTES CLAVE:
+  Cards:
+    - Borde redondeado: 10px (md)
+    - Borde sutil azulado
+    - Al hover: "blue halo" (sombra azulada, elemento signature)
+    - Transicion suave
+
+  Botones:
+    - Primario: fondo azul #3B82F6
+    - Secundario: borde azul, fondo transparente
+    - Bordes: 6px (sm)
+
+ESPACIADO:
+  micro:     2px
+  compact:   4px
+  component: 8px
+  section:   16px
+  major:     32px+
+
+ANIMACIONES:
+  - Suaves, sin spring ni rebote
+  - Easing: cubic-bezier(0.22, 1, 0.36, 1) (ease-out)
+  - Duracion tipica: 150-200ms
+
+REGLAS DEL SISTEMA:
+  - Un solo color de acento (azul). Ambar solo para alertas.
+  - Superficies con tinte azulado para coherencia.
+  - Sidebar mismo color que contenido (no gris separado).
+  - Bordes siempre en tono del acento.
+
+================================================================================
+21. COMO CORRER EL PROYECTO LOCALMENTE
+================================================================================
+
+PREREQUISITOS:
+  - Node.js 18+ instalado
+  - MongoDB instalado y corriendo (o cuenta en MongoDB Atlas)
+  - Git instalado
+
+PASOS:
+
+1. CLONAR / UBICARSE EN EL PROYECTO
+   cd c:\Users\josec\Desktop\Gpromts
+
+2. INSTALAR DEPENDENCIAS
+   npm install          # instala dependencias del raiz (servidor)
+   cd client
+   npm install          # instala dependencias del cliente
+   cd ..
+
+3. CONFIGURAR VARIABLES DE ENTORNO
+   Copiar .env.example a .env.development
+   cp .env.example .env.development
+
+   Editar .env.development con tus valores:
+   MONGODB_URI=mongodb://localhost:27017/gpromts
+   JWT_SECRET=una_clave_secreta_larga_y_random
+   JWT_REFRESH_SECRET=otra_clave_secreta_diferente
+   PORT=5000
+   NODE_ENV=development
+   SESSION_SECRET=clave_para_sesiones
+
+4. CREAR USUARIO ADMIN INICIAL (opcional)
+   cd server
+   node utils/seedAdmin.js
+   cd ..
+
+   (Este script crea un usuario admin para acceder al panel)
+
+5. CORRER EN DESARROLLO
+   npm run dev
+
+   Esto corre en paralelo:
+   - Servidor en http://localhost:5000
+   - Cliente en http://localhost:3000
+
+6. ACCEDER A LA APLICACION
+   Abrir http://localhost:3000 en el navegador
+
+SCRIPTS DISPONIBLES (package.json raiz):
+  npm run dev        - Servidor + cliente en paralelo (desarrollo)
+  npm run server     - Solo el servidor con nodemon
+  npm run client     - Solo el cliente React
+  npm run build      - Compilar cliente para produccion
+  npm start          - Servidor en modo produccion
+  npm run audit      - Auditoria de seguridad de dependencias
+
+================================================================================
+22. RESUMEN DE FUNCIONALIDADES
+================================================================================
+
+FUNCIONALIDADES DE USUARIO:
+  [x] Registro de cuenta con validacion de contrasena compleja
+  [x] Login/logout con JWT
+  [x] Renovacion automatica de tokens
+  [x] Perfil publico con avatar, bio y estadisticas
+  [x] Editar perfil y contrasena
+  [x] Preferencias (mostrar/ocultar NSFW)
+  [x] Eliminar cuenta (soft delete)
+
+FUNCIONALIDADES DE PROMPTS:
+  [x] Crear prompts con titulo, descripcion, texto, categoria, herramienta
+  [x] Tags y flag de contenido NSFW
+  [x] Busqueda de texto completo
+  [x] Filtros por categoria y herramienta AI
+  [x] Ordenamiento multiple (fecha, calificacion, favoritos, vistas)
+  [x] Paginacion
+  [x] Sistema de calificacion 1-5 estrellas con distribucion
+  [x] Prevencion de calificaciones duplicadas (atomico en DB)
+  [x] Favoritos (toggle agregar/quitar)
+  [x] Contador de vistas
+  [x] Prompts destacados (featured)
+  [x] Editar y eliminar prompts propios
+  [x] Reportar contenido inapropiado (con razon y detalles)
+  [x] Sistema de moderacion: pending/approved/rejected
+  [x] Notificaciones al autor cuando su prompt es aprobado/rechazado
+
+FUNCIONALIDADES DE ADMIN/MODERACION:
+  [x] Panel de estadisticas generales
+  [x] Cola de moderacion de prompts
+  [x] Aprobar/rechazar con retroalimentacion
+  [x] Gestion de usuarios (ver, activar/desactivar)
+  [x] Sistema de reportes con resolucion
+  [x] Gestion de moderadores (promover/degradar)
+  [x] CRUD de foros
+  [x] CRUD de herramientas AI
+  [x] Log de auditoria de todas las acciones
+
+FUNCIONALIDADES DE COMUNIDAD:
+  [x] Directorio de foros externos (filtrable por idioma)
+  [x] Directorio de herramientas AI (filtrable por categoria)
+  [x] Blog con categorias y rich content
+  [x] Comentarios en el blog
+  [x] Likes en posts y comentarios
+  [x] Menciones a prompts/herramientas/comunidades en posts
+  [x] Sistema de notificaciones en tiempo real (polling)
+
+SEGURIDAD IMPLEMENTADA:
+  [x] JWT con access token corto (15min) + refresh token largo (7d)
+  [x] Refresh token en cookie httpOnly (XSS-proof)
+  [x] Access token en memoria (no localStorage)
+  [x] CSRF protection con tokens de sesion
+  [x] Bcrypt para hashing de contrasenas
+  [x] Rate limiting por IP en API y auth
+  [x] Proteccion contra inyeccion NoSQL (mongo-sanitize)
+  [x] Limpieza de XSS en inputs
+  [x] Proteccion HTTP Parameter Pollution
+  [x] Headers de seguridad con Helmet (CSP, HSTS, X-Frame-Options)
+  [x] CORS configurado y restrictivo
+  [x] Bloqueo de cuenta despues de intentos fallidos
+  [x] Soft delete (preservacion de datos)
+  [x] Log de auditoria completo
+  [x] Validacion de datos con express-validator
+  [x] Sanitizacion HTML en frontend con DOMPurify
+
+================================================================================
+                                FIN DEL DOCUMENTO
+================================================================================

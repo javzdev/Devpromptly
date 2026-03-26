@@ -1,0 +1,223 @@
+================================================================================
+                         ¿QUE ES DEVPROMPTLY?
+                    La plataforma de prompts de IA que necesitas
+================================================================================
+
+El mundo de la inteligencia artificial avanza rapido. Cada dia hay nuevas
+herramientas, nuevas tecnicas, nuevas formas de obtener mejores resultados.
+El problema es que la mayoria de la gente no sabe como hablarle bien a una IA.
+
+Ahi entra DevPromptly.
+
+DevPromptly es la plataforma donde los usuarios descubren, crean y comparten
+prompts de inteligencia artificial. Un prompt es la instruccion que le das a
+una IA: la diferencia entre un prompt mediocre y uno bien construido puede
+ser la diferencia entre un resultado inutil y uno que te ahorra horas de
+trabajo.
+
+Con DevPromptly, no tienes que empezar desde cero. Alguien ya lo hizo por ti.
+
+================================================================================
+TODO LO QUE PUEDES HACER EN DEVPROMPTLY
+================================================================================
+
+--------------------------------------------------------------------------------
+EXPLORAR MILES DE PROMPTS
+--------------------------------------------------------------------------------
+
+El catalogo de prompts cubre todas las categorias que existen hoy en IA:
+
+  - Generacion de texto     Para redactar, resumir, reescribir, traducir
+  - Generacion de imagenes  Para Midjourney, DALL-E, Stable Diffusion y mas
+  - Generacion de codigo    Para programar, depurar, documentar con IA
+  - Generacion de audio     Para crear musica, voces y efectos
+  - Generacion de video     Para herramientas de video con IA
+  - Analisis de datos       Para interpretar, limpiar y visualizar datos
+  - Traduccion              Prompts especializados en traduccion precisa
+  - Y muchas categorias mas
+
+Puedes filtrar por la herramienta de IA que tu ya usas. La plataforma soporta
+mas de 70 herramientas, entre ellas:
+  ChatGPT, Claude, Gemini, Midjourney, DALL-E, GitHub Copilot, Perplexity,
+  Stable Diffusion, Llama, Mistral, y muchas mas.
+
+Y puedes ordenar los resultados por lo que mas te importe:
+  - Los mas recientes
+  - Los mejor calificados por la comunidad
+  - Los mas guardados como favoritos
+  - Los mas vistos
+
+--------------------------------------------------------------------------------
+BUSQUEDA INTELIGENTE
+--------------------------------------------------------------------------------
+
+Si tienes una necesidad concreta, no necesitas navegar categoria por categoria.
+El buscador de texto completo encuentra prompts por cualquier palabra en
+el titulo, descripcion o contenido. Escribe lo que necesitas y aparece.
+
+--------------------------------------------------------------------------------
+SISTEMA DE CALIFICACIONES
+--------------------------------------------------------------------------------
+
+Cada prompt puede ser calificado del 1 al 5 por los usuarios.
+La plataforma muestra el promedio, el total de votos y la distribucion
+completa de calificaciones (cuantos dieron 1, cuantos dieron 2, etc.).
+
+Asi sabes exactamente que tan probado y validado esta un prompt antes
+de usarlo. No confias en la opinion de uno, confias en la de muchos.
+
+--------------------------------------------------------------------------------
+GUARDAR TUS FAVORITOS
+--------------------------------------------------------------------------------
+
+Cuando encuentres un prompt que te funcione, guardalo con un click.
+Todos tus favoritos quedan en tu cuenta, accesibles desde cualquier
+dispositivo, organizados y listos para usar cuando los necesites.
+
+--------------------------------------------------------------------------------
+CREAR Y PUBLICAR TUS PROPIOS PROMPTS
+--------------------------------------------------------------------------------
+
+Si has desarrollado un prompt que funciona excepcionalmente bien,
+compartelo con la comunidad. Solo necesitas una cuenta gratuita.
+
+Al publicar un prompt puedes especificar:
+  - Titulo y descripcion clara
+  - El prompt completo y listo para copiar
+  - La categoria a la que pertenece
+  - La herramienta de IA para la que fue creado
+  - Etiquetas para facilitar su descubrimiento
+  - Si contiene contenido para adultos (NSFW)
+
+Antes de aparecer publicamente, cada prompt pasa por un proceso de
+moderacion humana. Esto garantiza que todo el contenido del catalogo
+es de calidad y apropiado para la comunidad.
+
+--------------------------------------------------------------------------------
+GESTIONAR TUS PROMPTS
+--------------------------------------------------------------------------------
+
+Desde tu panel personal puedes ver todos los prompts que has creado,
+saber si estan aprobados, pendientes de revision o si fueron rechazados
+(con la razon explicada), y editarlos o eliminarlos cuando quieras.
+
+--------------------------------------------------------------------------------
+TU PERFIL PUBLICO
+--------------------------------------------------------------------------------
+
+Cada usuario tiene un perfil publico que muestra:
+  - Sus prompts publicados y aprobados
+  - Su puntuacion media como creador de contenido
+  - Cuantos prompts ha creado
+  - Cuantas calificaciones ha recibido en total
+
+Los mejores creadores de prompts construyen reputacion en la plataforma.
+
+--------------------------------------------------------------------------------
+NOTIFICACIONES EN TIEMPO REAL
+--------------------------------------------------------------------------------
+
+La plataforma te avisa cuando algo importante ocurre:
+  - Tu prompt fue aprobado y ya esta visible para toda la comunidad
+  - Tu prompt fue rechazado, con la explicacion del moderador
+  - Cualquier novedad relevante para tu cuenta
+
+Todo desde el icono de campana en la barra de navegacion.
+
+--------------------------------------------------------------------------------
+BLOG DE LA COMUNIDAD
+--------------------------------------------------------------------------------
+
+DevPromptly no es solo un catalogo. Es tambien un espacio de conocimiento.
+
+El blog de la plataforma recoge contenido editorial sobre el mundo de la IA:
+  - Guias paso a paso para sacar el maximo provecho a las herramientas
+  - Tutoriales practicos con ejemplos reales
+  - Rankings y comparativas de herramientas
+  - Noticias del ecosistema de inteligencia artificial
+  - Resenas en profundidad
+  - Opinion y tendencias
+
+Cualquier usuario registrado puede escribir y publicar articulos.
+Los posts pueden mencionar directamente prompts y herramientas de la
+plataforma, creando una red de contenido interconectado y util.
+
+Los lectores pueden dejar comentarios y dar likes a los articulos y
+a los comentarios de otros.
+
+--------------------------------------------------------------------------------
+DIRECTORIO DE HERRAMIENTAS DE IA
+--------------------------------------------------------------------------------
+
+Un catalogo curado de las mejores herramientas de inteligencia artificial
+disponibles hoy, organizado por categoria:
+  Escritura, Imagen, Codigo, Audio, Video, Productividad,
+  Investigacion, Chatbots, Analisis de datos y mas.
+
+Cada herramienta incluye nombre, descripcion y link directo.
+Es el punto de partida para descubrir nuevas IAs que quizas no conocias.
+
+--------------------------------------------------------------------------------
+DIRECTORIO DE COMUNIDADES Y FOROS
+--------------------------------------------------------------------------------
+
+La IA tiene comunidades apasionadas en todo internet.
+DevPromptly reune en un solo lugar los mejores foros y grupos donde
+la gente discute, aprende y comparte sobre IA.
+
+Filtrable por idioma: tanto en espanol como en ingles.
+Todos curados manualmente para garantizar calidad.
+
+--------------------------------------------------------------------------------
+SISTEMA DE REPORTES
+--------------------------------------------------------------------------------
+
+La comunidad es responsable de su propio contenido.
+Si encuentras un prompt que es spam, engañoso o inapropiado, puedes
+reportarlo en segundos. El equipo de moderacion lo revisa y actua.
+
+--------------------------------------------------------------------------------
+CONTROL TOTAL DE TU CUENTA
+--------------------------------------------------------------------------------
+
+Desde tu configuracion puedes:
+  - Actualizar tu avatar y biografia
+  - Cambiar tu contrasena
+  - Decidir si quieres ver contenido marcado como adulto
+  - Seleccionar tu idioma preferido
+  - Eliminar tu cuenta si lo deseas
+
+================================================================================
+¿PARA QUIEN ES DEVPROMPTLY?
+================================================================================
+
+Para cualquier persona que use herramientas de IA de forma regular y quiera
+obtener mejores resultados sin perder tiempo probando prompts desde cero.
+
+Especialmente util para:
+  Desarrolladores que usan Copilot o ChatGPT para programar
+  Diseñadores que trabajan con Midjourney o DALL-E
+  Redactores y marketers que usan IA para generar contenido
+  Investigadores y analiticos que procesan datos con IA
+  Cualquiera que quiera aprender a usar mejor las IAs que ya tiene
+
+================================================================================
+¿POR QUE DEVPROMPTLY Y NO OTRA OPCION?
+================================================================================
+
+Porque todo el contenido esta moderado. No es un dump de prompts sin filtrar:
+cada uno pasa por revision antes de publicarse.
+
+Porque esta organizado para encontrar rapido. Filtros por categoria,
+herramienta, calificacion y busqueda de texto: encuentras lo que necesitas
+en segundos, no en minutos.
+
+Porque la comunidad valida lo que funciona. Las calificaciones y los
+favoritos te dicen que prompts han sido probados y aprobados por personas
+reales con las mismas herramientas que tu usas.
+
+Porque no es solo un catalogo. El blog, el directorio de herramientas
+y el directorio de comunidades convierten a DevPromptly en el punto de
+referencia completo para cualquiera que trabaje con inteligencia artificial.
+
+================================================================================

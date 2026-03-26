@@ -1,0 +1,44 @@
+# Environment variables - NEVER commit these
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+*.env
+
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Build output
+client/build/
+client/dist/
+server/dist/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Uploads (imágenes locales - usar Cloudinary en producción)
+server/uploads/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/settings.json
+.idea/
+
+# Claude Code internal config
+.claude/
+
+# Coverage
+coverage/
