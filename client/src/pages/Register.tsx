@@ -4,6 +4,39 @@ import { EyeIcon, EyeSlashIcon, LockClosedIcon, UserIcon, EnvelopeIcon } from '@
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 
+interface FieldProps {
+  label: string;
+  name: string;
+  type: string;
+  placeholder: string;
+  icon: React.ElementType;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  extra?: React.ReactNode;
+}
+
+const Field: React.FC<FieldProps> = ({ label, name, type, placeholder, icon: Icon, value, onChange, extra }) => (
+  <div>
+    <label style={{ display: 'block', fontSize: 12, fontWeight: 500, color: 'var(--stone)', marginBottom: 6 }}>
+      {label}
+    </label>
+    <div style={{ position: 'relative' }}>
+      <Icon style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, color: 'var(--stone)', opacity: 0.5 }} />
+      <input
+        name={name}
+        type={type}
+        required
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className="input"
+        style={{ paddingLeft: 36, paddingRight: extra ? 40 : undefined }}
+      />
+      {extra}
+    </div>
+  </div>
+);
+
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '', confirmPassword: '' });
   const [showPassword, setShowPassword] = useState(false);
@@ -40,36 +73,6 @@ const Register: React.FC = () => {
     }
   };
 
-  const Field: React.FC<{
-    label: string;
-    name: string;
-    type: string;
-    placeholder: string;
-    icon: React.ElementType;
-    value: string;
-    extra?: React.ReactNode;
-  }> = ({ label, name, type, placeholder, icon: Icon, value, extra }) => (
-    <div>
-      <label style={{ display: 'block', fontSize: 12, fontWeight: 500, color: 'var(--stone)', marginBottom: 6 }}>
-        {label}
-      </label>
-      <div style={{ position: 'relative' }}>
-        <Icon style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, color: 'var(--stone)', opacity: 0.5 }} />
-        <input
-          name={name}
-          type={type}
-          required
-          value={value}
-          onChange={handleChange}
-          placeholder={placeholder}
-          className="input"
-          style={{ paddingLeft: 36, paddingRight: extra ? 40 : undefined }}
-        />
-        {extra}
-      </div>
-    </div>
-  );
-
   return (
     <div
       className="min-h-screen flex items-center justify-center px-4 py-12"
@@ -103,8 +106,8 @@ const Register: React.FC = () => {
 
         <div className="card" style={{ padding: '28px 28px 24px' }}>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <Field label="Username" name="username" type="text" placeholder="johndoe" icon={UserIcon} value={formData.username} />
-            <Field label="Email" name="email" type="email" placeholder="you@example.com" icon={EnvelopeIcon} value={formData.email} />
+            <Field label="Username" name="username" type="text" placeholder="johndoe" icon={UserIcon} value={formData.username} onChange={handleChange} />
+            <Field label="Email" name="email" type="email" placeholder="you@example.com" icon={EnvelopeIcon} value={formData.email} onChange={handleChange} />
 
             {/* Password with toggle */}
             <div>
@@ -149,8 +152,8 @@ const Register: React.FC = () => {
               <input type="checkbox" required id="terms" style={{ marginTop: 2, accentColor: 'var(--signal)', width: 13, height: 13, flexShrink: 0 }} />
               <label htmlFor="terms" style={{ fontSize: 11, color: 'var(--stone)', lineHeight: 1.5 }}>
                 I agree to the{' '}
-                <span style={{ color: 'var(--signal)' }}>Terms</span> and{' '}
-                <span style={{ color: 'var(--signal)' }}>Privacy Policy</span>
+                <Link to="/privacy" style={{ color: 'var(--signal)' }}>Terms</Link> and{' '}
+                <Link to="/privacy" style={{ color: 'var(--signal)' }}>Privacy Policy</Link>
               </label>
             </div>
 

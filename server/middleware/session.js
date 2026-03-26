@@ -65,7 +65,7 @@ const sessionConfig = {
     secure: !isDev,
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    sameSite: isDev ? 'lax' : 'strict',
+    sameSite: isDev ? 'lax' : 'none',
     path: '/'
   }
 };
@@ -76,7 +76,7 @@ const sessionMiddleware = session(sessionConfig);
 const cookieConfig = {
   httpOnly: true,
   secure: !isDev,
-  sameSite: isDev ? 'lax' : 'strict',
+  sameSite: isDev ? 'lax' : 'none',
   maxAge: isDev ? 7 * 24 * 60 * 60 * 1000 : 15 * 60 * 1000, // 7 days dev / 15 min prod
   path: '/'
 };
@@ -85,7 +85,7 @@ const cookieConfig = {
 const refreshTokenCookieConfig = {
   httpOnly: true,
   secure: !isDev,
-  sameSite: isDev ? 'lax' : 'strict',
+  sameSite: isDev ? 'lax' : 'none',
   maxAge: isDev ? 30 * 24 * 60 * 60 * 1000 : 7 * 24 * 60 * 60 * 1000, // 30 days dev / 7 days prod
   path: '/'
 };
