@@ -21,6 +21,8 @@ import EditPrompt from './pages/EditPrompt';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import CreateBlogPost from './pages/CreateBlogPost';
+import Footer from './components/Footer';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import './index.css';
 
 function App() {
@@ -50,8 +52,10 @@ function App() {
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/new" element={<CreateBlogPost />} />
               <Route path="/blog/:id" element={<BlogPost />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
             </Routes>
           </main>
+          <Footer />
           <Toaster 
             position="top-right"
             toastOptions={{
