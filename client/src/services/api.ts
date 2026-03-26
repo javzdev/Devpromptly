@@ -241,7 +241,7 @@ export const promptsAPI = {
         else if (v !== undefined && v !== null) form.append(k, String(v));
       });
       imageFiles.forEach(f => form.append('images', f));
-      const response = await api.post('/prompts', form);
+      const response = await api.post('/prompts', form, { headers: { 'Content-Type': undefined } });
       cache.clear();
       return response.data;
     }
