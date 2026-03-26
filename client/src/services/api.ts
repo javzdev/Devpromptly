@@ -100,7 +100,7 @@ api.interceptors.response.use(
     const originalRequest = axiosError.config as any;
     
     if (axiosError.response?.status === 401 && !originalRequest._retry) {
-      if (originalRequest.url?.includes('/refresh') || originalRequest.url?.includes('/login')) {
+      if (originalRequest.url?.includes('/refresh') || originalRequest.url?.includes('/login') || originalRequest.url?.includes('/auth/me')) {
         secureStorage.clearTokens();
         return Promise.reject(error);
       }
