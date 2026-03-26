@@ -94,9 +94,11 @@ const Register: React.FC = () => {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex flex-col items-center gap-3">
-            <div style={{ width: 40, height: 40, background: 'var(--signal)', borderRadius: 'var(--r-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 16, fontWeight: 700, color: 'var(--void)' }}>G</span>
-            </div>
+            <img
+              src={require('../Logo/logo_principal.png')}
+              alt="DevPromptly"
+              style={{ height: 64 }}
+            />
             <div>
               <h1 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 22, fontWeight: 700, color: 'var(--parchment)', letterSpacing: '-0.02em', marginBottom: 4 }}>
                 Create an account
