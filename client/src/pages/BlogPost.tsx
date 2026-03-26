@@ -85,7 +85,7 @@ const ImageGallery: React.FC<{ images: string[] }> = ({ images }) => {
     <div key={idx} style={{ overflow: 'hidden', ...extra }}>
       <img
         src={src}
-        alt={`Image ${idx + 1}`}
+        alt={`Blog ${idx + 1}`}
         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         onError={e => { if (e.currentTarget.parentElement) e.currentTarget.parentElement.style.display = 'none'; }}
       />
@@ -101,7 +101,7 @@ const ImageGallery: React.FC<{ images: string[] }> = ({ images }) => {
   if (n === 1) {
     gridEl = (
       <div style={wrapper}>
-        <img src={images[0]} alt="Image 1" style={{ width: '100%', maxHeight: 480, objectFit: 'cover', display: 'block' }}
+        <img src={images[0]} alt="Blog cover" style={{ width: '100%', maxHeight: 480, objectFit: 'cover', display: 'block' }}
           onError={e => (e.currentTarget.style.display = 'none')} />
       </div>
     );
@@ -164,7 +164,7 @@ export default function BlogPostPage() {
       toast.error('Post no encontrado');
       navigate('/blog');
     });
-  }, [id, user]);
+  }, [id, user, navigate]);
 
   const handleLike = async () => {
     if (!isAuthenticated) { toast.error('Inicia sesión para dar like'); return; }

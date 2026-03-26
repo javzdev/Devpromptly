@@ -102,9 +102,9 @@ const Login: React.FC = () => {
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                 <label style={{ fontSize: 12, fontWeight: 500, color: 'var(--stone)' }}>Contraseña</label>
-                <a href="#" style={{ fontSize: 11, color: 'var(--stone)', opacity: 0.6, transition: 'opacity 150ms' }}>
+                <button type="button" style={{ fontSize: 11, color: 'var(--stone)', opacity: 0.6, transition: 'opacity 150ms', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
                   ¿Olvidaste?
-                </a>
+                </button>
               </div>
               <div style={{ position: 'relative' }}>
                 <LockClosedIcon

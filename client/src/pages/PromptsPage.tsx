@@ -159,7 +159,7 @@ const PromptsPage: React.FC = () => {
     page: parseInt(searchParams.get('page') || '1'),
   };
 
-  useEffect(() => { load(); }, [searchParams]);
+  useEffect(() => { load(); }, [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const load = async () => {
     setLoading(true);

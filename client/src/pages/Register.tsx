@@ -149,8 +149,8 @@ const Register: React.FC = () => {
               <input type="checkbox" required id="terms" style={{ marginTop: 2, accentColor: 'var(--signal)', width: 13, height: 13, flexShrink: 0 }} />
               <label htmlFor="terms" style={{ fontSize: 11, color: 'var(--stone)', lineHeight: 1.5 }}>
                 I agree to the{' '}
-                <a href="#" style={{ color: 'var(--signal)' }}>Terms</a> and{' '}
-                <a href="#" style={{ color: 'var(--signal)' }}>Privacy Policy</a>
+                <span style={{ color: 'var(--signal)' }}>Terms</span> and{' '}
+                <span style={{ color: 'var(--signal)' }}>Privacy Policy</span>
               </label>
             </div>
 

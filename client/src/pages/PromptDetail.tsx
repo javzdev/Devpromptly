@@ -41,6 +41,7 @@ const PromptDetail: React.FC = () => {
 
   useEffect(() => {
     if (id) load();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const load = async () => {

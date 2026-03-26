@@ -98,9 +98,9 @@ const Header: React.FC = () => {
           {/* Logo — DevPromptly */}
           <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
             <img
-              src={require('../Logo/Captura de pantalla 2026-03-18 200424.png')}
+              src={require('../Logo/logo_principal.png')}
               alt="DevPromptly"
-              style={{ height: 32 }}
+              style={{ height: 80, marginTop: 4, marginBottom: 4 }}
             />
           </Link>
 

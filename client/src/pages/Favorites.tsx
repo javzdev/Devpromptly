@@ -8,7 +8,7 @@ import { Prompt } from '../types';
 import toast from 'react-hot-toast';
 
 const Favorites: React.FC = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [favorites, setFavorites] = useState<Prompt[]>([]);
   const [loading, setLoading] = useState(true);
 

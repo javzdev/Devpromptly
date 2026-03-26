@@ -378,7 +378,7 @@ export default function CreateBlogPost() {
                     <div style={{ borderRadius: 8, overflow: 'hidden', height: 140, border: '1px solid var(--whisper)' }}>
                       <img
                         src={url}
-                        alt={`Image ${i + 1}`}
+                        alt={`Blog ${i + 1}`}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         onError={e => (e.currentTarget.style.display = 'none')}
                       />
