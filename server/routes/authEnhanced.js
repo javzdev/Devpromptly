@@ -634,17 +634,26 @@ router.post('/confirm-email', async (req, res) => {
       });
     }
 
-    const user = await User.findOne({
-      emailVerificationToken: token,
-      emailVerificationExpires: { $gt: Date.now() }
-    });
+    const userByToken = await User.findOne({ emailVerificationToken: token })
+      .select('+emailVerificationToken +emailVerificationExpires');
 
-    if (!user) {
+    if (!userByToken) {
+      console.warn(`[ConfirmEmail] No user found for token: ${token.slice(0, 8)}...`);
       return res.status(400).json({
         message: 'Invalid or expired verification token',
         code: 'INVALID_TOKEN'
       });
     }
+
+    if (userByToken.emailVerificationExpires < Date.now()) {
+      console.warn(`[ConfirmEmail] Token expired for user: ${userByToken.email}`);
+      return res.status(400).json({
+        message: 'El enlace expiró. Usa el botón de reenviar para obtener uno nuevo.',
+        code: 'TOKEN_EXPIRED'
+      });
+    }
+
+    const user = userByToken;
 
     // Verify email
     user.emailVerified = true;

@@ -84,7 +84,7 @@ async function sendVerificationEmail(toEmail, verificationToken) {
           <div style="padding: 36px 32px;">
             <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700; color: #F2EDE4; letter-spacing: -0.02em;">Activa tu cuenta</h2>
             <p style="margin: 0 0 24px; font-size: 14px; color: #8A8A9A; line-height: 1.6;">Bienvenido a <strong style="color: #F2EDE4;">${APP_NAME}</strong>. Solo un paso más para empezar a explorar y compartir prompts.</p>
-            <a href="${verifyUrl}" style="display:inline-block;padding:12px 28px;background:#E8B84B;color:#0C0C0E;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;">
+            <a href="${verifyUrl}" target="_self" style="display:inline-block;padding:12px 28px;background:#E8B84B;color:#0C0C0E;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;">
               Activar cuenta
             </a>
             <p style="margin: 24px 0 0; font-size: 12px; color: #5A5A6A; line-height: 1.5;">Este enlace expira en <strong>24 horas</strong>. Si no creaste esta cuenta, puedes ignorar este correo.</p>
