@@ -15,8 +15,6 @@ interface AuthContextType extends AuthState {
   logout: () => Promise<void>;
   updateProfile: (profileData: { username?: string; avatar?: string }) => Promise<void>;
   refreshToken: () => Promise<void>;
-  confirmEmail: (token: string) => Promise<void>;
-  resendVerificationEmail: () => Promise<void>;
 }
 
 type AuthAction =
@@ -227,18 +225,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const confirmEmail = async (token: string) => {
-    await authAPI.confirmEmail(token);
-    // Update user in state to reflect emailVerified = true
-    if (state.user) {
-      dispatch({ type: 'UPDATE_PROFILE', payload: { ...state.user, emailVerified: true } });
-    }
-  };
-
-  const resendVerificationEmail = async () => {
-    await authAPI.resendVerificationEmail();
-  };
-
   const value: AuthContextType = {
     ...state,
     login,
@@ -246,8 +232,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     logout,
     updateProfile,
     refreshToken,
-    confirmEmail,
-    resendVerificationEmail,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

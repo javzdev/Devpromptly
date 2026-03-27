@@ -14,7 +14,6 @@ export interface User {
   preferences?: {
     showNSFW: boolean;
   };
-  emailVerified: boolean;
   createdAt: string;
   updatedAt: string;
   prompts?: Prompt[];

@@ -15,7 +15,7 @@ const {
 } = require('../middleware/session');
 const { authRateLimiter, passwordResetRateLimiter } = require('../middleware/rateLimiter');
 const { passwordValidator } = require('../utils/passwordValidator');
-const { sendPasswordResetEmail, sendVerificationEmail } = require('../utils/emailService');
+const { sendPasswordResetEmail } = require('../utils/emailService');
 const router = express.Router();
 
 // Generate JWT token
@@ -128,16 +128,6 @@ router.post('/register', authRateLimiter, registerValidation, async (req, res) =
       username,
       email,
       password
-    });
-
-    // Generate email verification token and send email
-    const emailVerificationToken = generateEmailVerificationToken();
-    user.emailVerificationToken = emailVerificationToken;
-    user.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
-    await user.save();
-
-    sendVerificationEmail(user.email, emailVerificationToken).catch(err => {
-      console.error('Failed to send verification email:', err.message);
     });
 
     // Generate tokens
@@ -585,90 +575,6 @@ router.post('/reset-password', newPasswordValidation, async (req, res) => {
     res.status(500).json({
       message: 'Failed to reset password',
       code: 'PASSWORD_RESET_ERROR'
-    });
-  }
-});
-
-// Verify email — resend verification link
-router.post('/verify-email', authenticateToken, async (req, res) => {
-  try {
-    const user = await User.findById(req.user._id)
-      .select('+emailVerificationToken +emailVerificationExpires');
-
-    if (user.emailVerified) {
-      return res.status(400).json({
-        message: 'Email already verified',
-        code: 'ALREADY_VERIFIED'
-      });
-    }
-
-    // Always generate a fresh token regardless of existing state
-    const emailToken = generateEmailVerificationToken();
-    user.emailVerificationToken = emailToken;
-    user.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24h
-    await user.save();
-
-    await sendVerificationEmail(user.email, emailToken);
-
-    res.json({
-      message: 'Verification email sent'
-    });
-  } catch (error) {
-    console.error('Verify email error:', error);
-    res.status(500).json({
-      message: 'Failed to send verification email',
-      code: 'EMAIL_SEND_ERROR'
-    });
-  }
-});
-
-// Confirm email verification
-router.post('/confirm-email', async (req, res) => {
-  try {
-    const { token } = req.body;
-
-    if (!token) {
-      return res.status(400).json({
-        message: 'Verification token is required',
-        code: 'TOKEN_REQUIRED'
-      });
-    }
-
-    const userByToken = await User.findOne({ emailVerificationToken: token })
-      .select('+emailVerificationToken +emailVerificationExpires');
-
-    if (!userByToken) {
-      console.warn(`[ConfirmEmail] No user found for token: ${token.slice(0, 8)}...`);
-      return res.status(400).json({
-        message: 'Invalid or expired verification token',
-        code: 'INVALID_TOKEN'
-      });
-    }
-
-    if (userByToken.emailVerificationExpires < Date.now()) {
-      console.warn(`[ConfirmEmail] Token expired for user: ${userByToken.email}`);
-      return res.status(400).json({
-        message: 'El enlace expiró. Usa el botón de reenviar para obtener uno nuevo.',
-        code: 'TOKEN_EXPIRED'
-      });
-    }
-
-    const user = userByToken;
-
-    // Verify email
-    user.emailVerified = true;
-    user.emailVerificationToken = undefined;
-    user.emailVerificationExpires = undefined;
-    await user.save();
-
-    res.json({
-      message: 'Email verified successfully'
-    });
-  } catch (error) {
-    console.error('Confirm email error:', error);
-    res.status(500).json({
-      message: 'Failed to verify email',
-      code: 'EMAIL_VERIFICATION_ERROR'
     });
   }
 });

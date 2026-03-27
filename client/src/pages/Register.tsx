@@ -66,7 +66,7 @@ const Register: React.FC = () => {
     setIsLoading(true);
     try {
       await register(formData.username, formData.email, formData.password);
-      navigate('/verify-pending');
+      navigate('/');
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to create account');
     } finally {

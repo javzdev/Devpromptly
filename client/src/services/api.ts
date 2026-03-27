@@ -208,15 +208,6 @@ export const authAPI = {
     return response.data;
   },
 
-  confirmEmail: async (token: string): Promise<{ message: string }> => {
-    const response = await api.post('/auth/confirm-email', { token });
-    return response.data;
-  },
-
-  resendVerificationEmail: async (): Promise<{ message: string }> => {
-    const response = await api.post('/auth/verify-email');
-    return response.data;
-  },
 };
 
 // Prompts API

@@ -1,5 +1,5 @@
 ================================================================================
-                         ¿QUE ES DEVPROMPTLY?
+                         ¿QUE ES Promptlyx?
                     La plataforma de prompts de IA que necesitas
 ================================================================================
 
@@ -7,18 +7,18 @@ El mundo de la inteligencia artificial avanza rapido. Cada dia hay nuevas
 herramientas, nuevas tecnicas, nuevas formas de obtener mejores resultados.
 El problema es que la mayoria de la gente no sabe como hablarle bien a una IA.
 
-Ahi entra DevPromptly.
+Ahi entra Promptlyx.
 
-DevPromptly es la plataforma donde los usuarios descubren, crean y comparten
+Promptlyx es la plataforma donde los usuarios descubren, crean y comparten
 prompts de inteligencia artificial. Un prompt es la instruccion que le das a
 una IA: la diferencia entre un prompt mediocre y uno bien construido puede
 ser la diferencia entre un resultado inutil y uno que te ahorra horas de
 trabajo.
 
-Con DevPromptly, no tienes que empezar desde cero. Alguien ya lo hizo por ti.
+Con Promptlyx, no tienes que empezar desde cero. Alguien ya lo hizo por ti.
 
 ================================================================================
-TODO LO QUE PUEDES HACER EN DEVPROMPTLY
+TODO LO QUE PUEDES HACER EN Promptlyx
 ================================================================================
 
 --------------------------------------------------------------------------------
@@ -128,7 +128,7 @@ Todo desde el icono de campana en la barra de navegacion.
 BLOG DE LA COMUNIDAD
 --------------------------------------------------------------------------------
 
-DevPromptly no es solo un catalogo. Es tambien un espacio de conocimiento.
+Promptlyx no es solo un catalogo. Es tambien un espacio de conocimiento.
 
 El blog de la plataforma recoge contenido editorial sobre el mundo de la IA:
   - Guias paso a paso para sacar el maximo provecho a las herramientas
@@ -162,7 +162,7 @@ DIRECTORIO DE COMUNIDADES Y FOROS
 --------------------------------------------------------------------------------
 
 La IA tiene comunidades apasionadas en todo internet.
-DevPromptly reune en un solo lugar los mejores foros y grupos donde
+Promptlyx reune en un solo lugar los mejores foros y grupos donde
 la gente discute, aprende y comparte sobre IA.
 
 Filtrable por idioma: tanto en espanol como en ingles.
@@ -188,7 +188,7 @@ Desde tu configuracion puedes:
   - Eliminar tu cuenta si lo deseas
 
 ================================================================================
-¿PARA QUIEN ES DEVPROMPTLY?
+¿PARA QUIEN ES Promptlyx?
 ================================================================================
 
 Para cualquier persona que use herramientas de IA de forma regular y quiera
@@ -202,7 +202,7 @@ Especialmente util para:
   Cualquiera que quiera aprender a usar mejor las IAs que ya tiene
 
 ================================================================================
-¿POR QUE DEVPROMPTLY Y NO OTRA OPCION?
+¿POR QUE Promptlyx Y NO OTRA OPCION?
 ================================================================================
 
 Porque todo el contenido esta moderado. No es un dump de prompts sin filtrar:
@@ -217,7 +217,7 @@ favoritos te dicen que prompts han sido probados y aprobados por personas
 reales con las mismas herramientas que tu usas.
 
 Porque no es solo un catalogo. El blog, el directorio de herramientas
-y el directorio de comunidades convierten a DevPromptly en el punto de
+y el directorio de comunidades convierten a Promptlyx en el punto de
 referencia completo para cualquiera que trabaje con inteligencia artificial.
 
 ================================================================================

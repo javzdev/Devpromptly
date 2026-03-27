@@ -155,7 +155,7 @@ app.use('/api', (req, res, next) => {
 app.use('/api', (req, res, next) => {
   if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(req.method)) {
     // Skip CSRF for public auth endpoints — no session/cookie yet
-    if (req.path === '/auth/login' || req.path === '/auth/register' || req.path === '/auth/confirm-email') {
+    if (req.path === '/auth/login' || req.path === '/auth/register') {
       return next();
     }
     // Skip CSRF for JWT-authenticated requests.
