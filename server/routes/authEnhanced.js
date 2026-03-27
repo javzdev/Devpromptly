@@ -589,27 +589,20 @@ router.post('/reset-password', newPasswordValidation, async (req, res) => {
   }
 });
 
-// Verify email
+// Verify email — resend verification link
 router.post('/verify-email', authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user._id)
       .select('+emailVerificationToken +emailVerificationExpires');
 
-    if (!user.emailVerificationToken || !user.emailVerificationExpires) {
+    if (user.emailVerified) {
       return res.status(400).json({
-        message: 'No verification token found',
-        code: 'NO_TOKEN'
+        message: 'Email already verified',
+        code: 'ALREADY_VERIFIED'
       });
     }
 
-    if (user.emailVerificationExpires < Date.now()) {
-      return res.status(400).json({
-        message: 'Verification token has expired',
-        code: 'TOKEN_EXPIRED'
-      });
-    }
-
-    // Generate new token and persist it
+    // Always generate a fresh token regardless of existing state
     const emailToken = generateEmailVerificationToken();
     user.emailVerificationToken = emailToken;
     user.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24h

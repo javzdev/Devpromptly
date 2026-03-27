@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { EnvelopeIcon, ArrowPathIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 
+const COOLDOWN = 60;
+
 const VerifyEmailPending: React.FC = () => {
   const { user, resendVerificationEmail } = useAuth();
   const [isSending, setIsSending] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = setTimeout(() => setCooldown(c => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
 
   const handleResend = async () => {
+    if (cooldown > 0 || isSending) return;
     setIsSending(true);
     try {
       await resendVerificationEmail();
-      setSent(true);
+      setCooldown(COOLDOWN);
       toast.success('Correo de verificación reenviado');
     } catch {
       toast.error('No se pudo reenviar el correo. Intenta más tarde.');
@@ -50,25 +59,20 @@ const VerifyEmailPending: React.FC = () => {
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {!sent ? (
-            <button
-              onClick={handleResend}
-              disabled={isSending}
-              className="btn"
-              style={{ width: '100%', justifyContent: 'center', opacity: isSending ? 0.7 : 1 }}
-            >
-              {isSending ? (
-                <><ArrowPathIcon style={{ width: 14, height: 14, animation: 'spin 1s linear infinite' }} />Enviando…</>
-              ) : (
-                <><ArrowPathIcon style={{ width: 14, height: 14 }} />Reenviar correo</>
-              )}
-            </button>
-          ) : (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '10px 0', fontSize: 13, color: 'var(--signal)' }}>
-              <CheckCircleIcon style={{ width: 16, height: 16 }} />
-              Correo reenviado
-            </div>
-          )}
+          <button
+            onClick={handleResend}
+            disabled={isSending || cooldown > 0}
+            className="btn"
+            style={{ width: '100%', justifyContent: 'center', opacity: (isSending || cooldown > 0) ? 0.6 : 1 }}
+          >
+            {isSending ? (
+              <><ArrowPathIcon style={{ width: 14, height: 14 }} />Enviando…</>
+            ) : cooldown > 0 ? (
+              <><CheckCircleIcon style={{ width: 14, height: 14, color: 'var(--signal)' }} />Enviado · reenviar en {cooldown}s</>
+            ) : (
+              <><ArrowPathIcon style={{ width: 14, height: 14 }} />Reenviar correo</>
+            )}
+          </button>
           <Link to="/" style={{ fontSize: 13, color: 'var(--stone)', textDecoration: 'none' }}>
             Ir al inicio →
           </Link>
