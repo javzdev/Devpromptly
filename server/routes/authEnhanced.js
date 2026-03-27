@@ -3,11 +3,9 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const crypto = require('crypto');
 const User = require('../models/User');
-const { 
-  authenticateToken, 
-  refreshTokenMiddleware, 
-  requireEmailVerification,
-  checkAccountStatus 
+const {
+  authenticateToken,
+  refreshTokenMiddleware
 } = require('../middleware/authEnhanced');
 const { 
   setTokenCookie, 
@@ -17,6 +15,7 @@ const {
 } = require('../middleware/session');
 const { authRateLimiter, passwordResetRateLimiter } = require('../middleware/rateLimiter');
 const { passwordValidator } = require('../utils/passwordValidator');
+const { sendPasswordResetEmail, sendVerificationEmail } = require('../utils/emailService');
 const router = express.Router();
 
 // Generate JWT token
@@ -524,9 +523,7 @@ router.post('/forgot-password', passwordResetRateLimiter, resetPasswordValidatio
     user.passwordResetExpires = Date.now() + 60 * 60 * 1000; // 1 hour
     await user.save();
 
-    // TODO: Implement email service for production
-    // In development, the token is returned in the response for testing
-    // In production, send email using SendGrid/AWS SES
+    await sendPasswordResetEmail(user.email, token);
 
     res.json({
       message: 'If an account with that email exists, a password reset link has been sent'
@@ -608,12 +605,13 @@ router.post('/verify-email', authenticateToken, async (req, res) => {
       });
     }
 
-    // Generate new token for email
+    // Generate new token and persist it
     const emailToken = generateEmailVerificationToken();
-    
-    // TODO: Implement email service for production
-    // In production, send email using SendGrid/AWS SES
-    // The token should be sent via email, not returned in response
+    user.emailVerificationToken = emailToken;
+    user.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24h
+    await user.save();
+
+    await sendVerificationEmail(user.email, emailToken);
 
     res.json({
       message: 'Verification email sent'

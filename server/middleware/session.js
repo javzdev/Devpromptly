@@ -7,7 +7,11 @@ dotenv.config();
 
 // Validar que SESSION_SECRET esté configurado
 if (!process.env.SESSION_SECRET) {
-  console.warn('WARNING: SESSION_SECRET not set. Using insecure default — set this in production!');
+  if (process.env.NODE_ENV === 'production') {
+    console.error('FATAL: SESSION_SECRET is not set. Refusing to start in production without a secure secret.');
+    process.exit(1);
+  }
+  console.warn('WARNING: SESSION_SECRET not set. Using insecure default — NEVER use this in production!');
   process.env.SESSION_SECRET = 'insecure-default-secret-change-in-production';
 }
 
@@ -35,7 +39,7 @@ if (process.env.REDIS_URL) {
     });
 
     redisClient.on('connect', () => {
-      console.log('Redis connected for session store');
+      console.info('Redis connected for session store');
     });
 
     redisClient.connect().catch((err) => {

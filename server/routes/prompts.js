@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const { v2: cloudinary } = require('cloudinary');
@@ -225,15 +224,10 @@ router.post('/', authenticateToken, uploadIfMultipart, async (req, res) => {
       isNSFW
     } = req.body;
 
-    // Debug: ver qué llega
-    console.log('[CREATE] content-type:', req.headers['content-type']);
-    console.log('[CREATE] files recibidos:', req.files?.length ?? 0);
-
     // Subir imágenes a Cloudinary
     const imageUrls = await Promise.all(
       (req.files || []).map(file => uploadToCloudinary(file.buffer).then(r => r.url))
     );
-    console.log('[CREATE] imageUrls guardadas:', imageUrls);
 
     const parsedTags = parseTags(tags);
 

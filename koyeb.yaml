@@ -1,0 +1,27 @@
+name: devpromptly
+
+services:
+  - name: api
+    type: web
+    git:
+      branch: main
+      build_command: "npm install"
+      run_command: "npm start"
+    instance_type: nano
+    regions:
+      - was  # Washington DC — cambiar según tu audiencia (fra = Frankfurt, sin = Singapore)
+    ports:
+      - port: 5000
+        protocol: http
+    health_checks:
+      - path: /health
+        port: 5000
+        interval: 30
+        timeout: 5
+    env:
+      # Estas vars se configuran en el dashboard de Koyeb, NO aquí
+      # Settings → Environment Variables
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "5000"

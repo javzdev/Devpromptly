@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Bloquear archivos .env en el commit
+if git diff --cached --name-only | grep -qE '\.env(\.|$)'; then
+  echo "❌ ERROR: Intentando commitear un archivo .env con credenciales."
+  echo "   Elimínalo del staging: git reset HEAD <archivo.env>"
+  exit 1
+fi
+
+# Bloquear console.log de debug en archivos de servidor (no en scripts/seed)
+STAGED_JS=$(git diff --cached --name-only | grep -E '^server/(routes|middleware|models|utils)/.*\.js$')
+
+if [ -n "$STAGED_JS" ]; then
+  FOUND=$(echo "$STAGED_JS" | xargs grep -l 'console\.log' 2>/dev/null)
+  if [ -n "$FOUND" ]; then
+    echo "❌ ERROR: console.log encontrado en archivos de servidor:"
+    echo "$FOUND"
+    echo "   Usa console.error/warn/info o elimínalo antes de commitear."
+    exit 1
+  fi
+fi
+
+# ESLint en archivos de servidor staged
+if [ -n "$STAGED_JS" ]; then
+  echo "$STAGED_JS" | xargs npx eslint --max-warnings=0 2>&1
+  if [ $? -ne 0 ]; then
+    echo "❌ ESLint falló. Corrige los errores antes de commitear."
+    exit 1
+  fi
+fi
+
+echo "✅ Pre-commit checks passed"
