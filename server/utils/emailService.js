@@ -4,8 +4,9 @@ const isConfigured = !!(process.env.EMAIL_API_KEY && process.env.EMAIL_FROM);
 
 if (isConfigured) {
   sgMail.setApiKey(process.env.EMAIL_API_KEY);
+  console.info(`[Email] Service configured — FROM: ${process.env.EMAIL_FROM}`);
 } else {
-  console.warn('Email service not configured — EMAIL_API_KEY or EMAIL_FROM missing. Emails will be skipped.');
+  console.warn(`[Email] NOT configured — EMAIL_API_KEY: ${!!process.env.EMAIL_API_KEY}, EMAIL_FROM: ${!!process.env.EMAIL_FROM}`);
 }
 
 const APP_NAME = 'DevPromptly';
@@ -78,7 +79,13 @@ async function sendVerificationEmail(toEmail, verificationToken) {
     `
   };
 
-  await sgMail.send(msg);
+  try {
+    await sgMail.send(msg);
+    console.info(`[Email] Verification email sent to ${toEmail}`);
+  } catch (err) {
+    console.error(`[Email] SendGrid error:`, JSON.stringify(err?.response?.body || err.message));
+    throw err;
+  }
 }
 
 module.exports = { sendPasswordResetEmail, sendVerificationEmail };
