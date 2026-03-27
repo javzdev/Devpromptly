@@ -130,11 +130,15 @@ router.post('/register', authRateLimiter, registerValidation, async (req, res) =
       password
     });
 
-    // Generate email verification token
+    // Generate email verification token and send email
     const emailVerificationToken = generateEmailVerificationToken();
     user.emailVerificationToken = emailVerificationToken;
     user.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
     await user.save();
+
+    sendVerificationEmail(user.email, emailVerificationToken).catch(err => {
+      console.error('Failed to send verification email:', err.message);
+    });
 
     // Generate tokens
     const token = generateToken(user._id);
