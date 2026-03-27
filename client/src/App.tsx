@@ -23,6 +23,9 @@ import BlogPost from './pages/BlogPost';
 import CreateBlogPost from './pages/CreateBlogPost';
 import Footer from './components/Footer';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import VerifyEmailPending from './pages/VerifyEmailPending';
+import ConfirmEmail from './pages/ConfirmEmail';
+import EmailVerificationBanner from './components/EmailVerificationBanner';
 import './index.css';
 
 function App() {
@@ -31,6 +34,7 @@ function App() {
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <div className="min-h-screen" style={{ background: 'var(--void)', color: 'var(--stone)' }}>
           <Header />
+          <EmailVerificationBanner />
           <main>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -53,6 +57,8 @@ function App() {
               <Route path="/blog/new" element={<CreateBlogPost />} />
               <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/verify-pending" element={<VerifyEmailPending />} />
+              <Route path="/confirm-email" element={<ConfirmEmail />} />
             </Routes>
           </main>
           <Footer />

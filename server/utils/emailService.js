@@ -12,6 +12,7 @@ if (isConfigured) {
 
 const APP_NAME = 'DevPromptly';
 const BASE_URL = process.env.APP_URL || 'https://javzdev.com';
+const LOGO_URL = `${BASE_URL}/logo_email.png`;
 
 async function sendPasswordResetEmail(toEmail, resetToken) {
   if (!isConfigured) {
@@ -26,17 +27,27 @@ async function sendPasswordResetEmail(toEmail, resetToken) {
       from: process.env.EMAIL_FROM,
       to: toEmail,
       subject: `Restablecer contraseña — ${APP_NAME}`,
+      headers: {
+        'X-Entity-Ref-ID': `reset-${Date.now()}`,
+        'List-Unsubscribe': `<mailto:noreply@javzdev.com>`,
+      },
       text: `Solicitaste restablecer tu contraseña en ${APP_NAME}.\n\nHaz clic en el siguiente enlace (válido por 1 hora):\n${resetUrl}\n\nSi no solicitaste esto, ignora este correo.`,
       html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2>Restablecer contraseña</h2>
-          <p>Solicitaste restablecer tu contraseña en <strong>${APP_NAME}</strong>.</p>
-          <p>
-            <a href="${resetUrl}" style="display:inline-block;padding:12px 24px;background:#6366f1;color:#fff;border-radius:6px;text-decoration:none;font-weight:bold;">
+        <div style="font-family: Inter, Arial, sans-serif; max-width: 560px; margin: 0 auto; background: #0C0C0E; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08);">
+          <div style="background: #13131A; padding: 28px 32px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06);">
+            <img src="${LOGO_URL}" alt="${APP_NAME}" style="height: 48px; max-width: 180px;" />
+          </div>
+          <div style="padding: 36px 32px;">
+            <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700; color: #F2EDE4; letter-spacing: -0.02em;">Restablecer contraseña</h2>
+            <p style="margin: 0 0 24px; font-size: 14px; color: #8A8A9A; line-height: 1.6;">Solicitaste restablecer tu contraseña en <strong style="color: #F2EDE4;">${APP_NAME}</strong>. Haz clic en el botón para continuar.</p>
+            <a href="${resetUrl}" style="display:inline-block;padding:12px 28px;background:#E8B84B;color:#0C0C0E;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;">
               Restablecer contraseña
             </a>
-          </p>
-          <p style="color:#888;font-size:13px;">Este enlace expira en 1 hora. Si no solicitaste esto, ignora este correo.</p>
+            <p style="margin: 24px 0 0; font-size: 12px; color: #5A5A6A; line-height: 1.5;">Este enlace expira en <strong>1 hora</strong>. Si no solicitaste esto, puedes ignorar este correo.</p>
+          </div>
+          <div style="padding: 20px 32px; border-top: 1px solid rgba(255,255,255,0.06); text-align: center;">
+            <p style="margin: 0; font-size: 11px; color: #4A4A5A;">${APP_NAME} · <a href="${BASE_URL}" style="color: #6A6A7A; text-decoration: none;">javzdev.com</a></p>
+          </div>
         </div>
       `
     });
@@ -59,18 +70,28 @@ async function sendVerificationEmail(toEmail, verificationToken) {
     await resend.emails.send({
       from: process.env.EMAIL_FROM,
       to: toEmail,
-      subject: `Verifica tu email — ${APP_NAME}`,
-      text: `Bienvenido a ${APP_NAME}. Verifica tu email:\n${verifyUrl}\n\nEste enlace expira en 24 horas.`,
+      subject: `Activa tu cuenta — ${APP_NAME}`,
+      headers: {
+        'X-Entity-Ref-ID': `verify-${Date.now()}`,
+        'List-Unsubscribe': `<mailto:noreply@javzdev.com>`,
+      },
+      text: `Bienvenido a ${APP_NAME}. Activa tu cuenta aquí:\n${verifyUrl}\n\nEste enlace expira en 24 horas.`,
       html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2>Verifica tu email</h2>
-          <p>Bienvenido a <strong>${APP_NAME}</strong>. Solo un paso más.</p>
-          <p>
-            <a href="${verifyUrl}" style="display:inline-block;padding:12px 24px;background:#6366f1;color:#fff;border-radius:6px;text-decoration:none;font-weight:bold;">
-              Verificar email
+        <div style="font-family: Inter, Arial, sans-serif; max-width: 560px; margin: 0 auto; background: #0C0C0E; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08);">
+          <div style="background: #13131A; padding: 28px 32px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06);">
+            <img src="${LOGO_URL}" alt="${APP_NAME}" style="height: 48px; max-width: 180px;" />
+          </div>
+          <div style="padding: 36px 32px;">
+            <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700; color: #F2EDE4; letter-spacing: -0.02em;">Activa tu cuenta</h2>
+            <p style="margin: 0 0 24px; font-size: 14px; color: #8A8A9A; line-height: 1.6;">Bienvenido a <strong style="color: #F2EDE4;">${APP_NAME}</strong>. Solo un paso más para empezar a explorar y compartir prompts.</p>
+            <a href="${verifyUrl}" style="display:inline-block;padding:12px 28px;background:#E8B84B;color:#0C0C0E;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;">
+              Activar cuenta
             </a>
-          </p>
-          <p style="color:#888;font-size:13px;">Este enlace expira en 24 horas.</p>
+            <p style="margin: 24px 0 0; font-size: 12px; color: #5A5A6A; line-height: 1.5;">Este enlace expira en <strong>24 horas</strong>. Si no creaste esta cuenta, puedes ignorar este correo.</p>
+          </div>
+          <div style="padding: 20px 32px; border-top: 1px solid rgba(255,255,255,0.06); text-align: center;">
+            <p style="margin: 0; font-size: 11px; color: #4A4A5A;">${APP_NAME} · <a href="${BASE_URL}" style="color: #6A6A7A; text-decoration: none;">javzdev.com</a></p>
+          </div>
         </div>
       `
     });

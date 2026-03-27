@@ -207,6 +207,7 @@ const CreatePrompt: React.FC = () => {
     if (!formData.prompt.trim()) { toast.error('El contenido del prompt es requerido'); return; }
     if (formData.aiTool === 'Other' && !customAiTool.trim()) { toast.error('Especifica la herramienta de IA'); return; }
     if (!user) { toast.error('Por favor inicia sesión'); navigate('/login'); return; }
+    if (!user.emailVerified) { toast.error('Verifica tu correo electrónico para publicar prompts'); return; }
 
     setIsLoading(true);
     try {
